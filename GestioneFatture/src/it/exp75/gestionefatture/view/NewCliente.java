@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import it.exp75.gestionefatture.business.FattureBusiness;
+import it.exp75.gestionefatture.business.Utility;
 import it.exp75.gestionefatture.model.Cliente;
 
 import javax.swing.JLabel;
@@ -18,6 +19,8 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class NewCliente extends JFrame {
 
@@ -80,8 +83,31 @@ public class NewCliente extends JFrame {
 		txtPartitaIva.setBounds(126, 62, 151, 20);
 		contentPane.add(txtPartitaIva);
 		txtPartitaIva.setColumns(10);
+
+		JLabel icnErrorCF = new JLabel("New label");
+		icnErrorCF.setIcon(new ImageIcon(NewCliente.class.getResource("/javax/swing/plaf/metal/icons/ocean/error.png")));
+		icnErrorCF.setBounds(287, 87, 35, 32);
+		icnErrorCF.setVisible(false);
+		contentPane.add(icnErrorCF);
 		
 		txtCodFiscale = new JTextField();
+		txtCodFiscale.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent arg0) {
+				if(txtCodFiscale.getText().length() > 0) {
+					Utility utility = new Utility();
+					String resultCheckCF = utility.ControllaCF(txtCodFiscale.getText());
+					if(!"".equalsIgnoreCase(resultCheckCF)) {
+						icnErrorCF.setVisible(true);
+						JOptionPane.showMessageDialog(null, resultCheckCF);
+					} else {
+						icnErrorCF.setVisible(false);
+					}
+
+				}
+			}
+		});
+
 		txtCodFiscale.setBounds(126, 93, 151, 20);
 		contentPane.add(txtCodFiscale);
 		txtCodFiscale.setColumns(10);
@@ -182,6 +208,7 @@ public class NewCliente extends JFrame {
 		lblNote = new JLabel("Note");
 		lblNote.setBounds(34, 259, 46, 14);
 		contentPane.add(lblNote);
+		
 	}
 	
 	public void selCliente(Integer id) throws SQLException {
