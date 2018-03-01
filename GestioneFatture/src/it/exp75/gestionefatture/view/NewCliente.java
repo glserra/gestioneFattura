@@ -96,8 +96,7 @@ public class NewCliente extends JFrame {
 			public void focusLost(FocusEvent arg0) {
 				icnErrorCF.setVisible(false);
 				if(txtCodFiscale.getText().length() > 0) {
-					Utility utility = new Utility();
-					String resultCheckCF = utility.ControllaCF(txtCodFiscale.getText());
+					String resultCheckCF = Utility.ControllaCF(txtCodFiscale.getText());
 					if(!"".equalsIgnoreCase(resultCheckCF)) {
 						icnErrorCF.setVisible(true);
 						JOptionPane.showMessageDialog(null, resultCheckCF);

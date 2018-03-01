@@ -12,7 +12,7 @@ public class Utility {
 	 *
 	 */
 
-	public String ControllaCF(String cf) {
+	public static String ControllaCF(String cf) {
 		int i, s, c;
 		String cf2;
 		int setdisp[] = {1, 0, 5, 7, 9, 13, 15, 17, 19, 21, 2, 4, 18, 20,
@@ -56,7 +56,7 @@ public class Utility {
 	 * ****************************************************
 	 */
 
-	public String ControllaPIVA(String pi)
+	public static String ControllaPIVA(String pi)
 	{
 		int i, c, s;
 		if( pi.length() == 0 )  return "";
