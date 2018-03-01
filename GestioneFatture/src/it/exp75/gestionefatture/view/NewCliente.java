@@ -94,16 +94,14 @@ public class NewCliente extends JFrame {
 		txtCodFiscale.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusLost(FocusEvent arg0) {
+				icnErrorCF.setVisible(false);
 				if(txtCodFiscale.getText().length() > 0) {
 					Utility utility = new Utility();
 					String resultCheckCF = utility.ControllaCF(txtCodFiscale.getText());
 					if(!"".equalsIgnoreCase(resultCheckCF)) {
 						icnErrorCF.setVisible(true);
 						JOptionPane.showMessageDialog(null, resultCheckCF);
-					} else {
-						icnErrorCF.setVisible(false);
 					}
-
 				}
 			}
 		});
