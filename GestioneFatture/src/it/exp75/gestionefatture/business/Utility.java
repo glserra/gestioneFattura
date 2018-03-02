@@ -19,15 +19,12 @@ public class Utility {
 				11, 3, 6, 8, 12, 14, 16, 10, 22, 25, 24, 23 };
 		if( cf.length() == 0 ) return "";
 		if( cf.length() != 16 )
-			return "La lunghezza del codice fiscale non &egrave;\n"
-			+ "corretta: il codice fiscale dovrebbe essere lungo\n"
-			+ "esattamente 16 caratteri.";
+			return IConstanti.CF_ERRORE_LUNGHEZZA;
 		cf2 = cf.toUpperCase();
 		for( i=0; i<16; i++ ){
 			c = cf2.charAt(i);
 			if( ! ( c>='0' && c<='9' || c>='A' && c<='Z' ) )
-				return "Il codice fiscale contiene dei caratteri non validi:\n"
-				+ "i soli caratteri validi sono le lettere e le cifre.";
+				return IConstanti.CF_ERRORE_CARATTERI_NON_VALIDI;
 		}
 		s = 0;
 		for( i=1; i<=13; i+=2 ){
@@ -43,8 +40,7 @@ public class Utility {
 			s = s + setdisp[c - 'A'];
 		}
 		if( s%26 + 'A' != cf2.charAt(15) )
-			return "Il codice fiscale non &egrave; corretto:\n"
-			+ "il codice di controllo non corrisponde.";
+			return IConstanti.CF_ERRORE_CODICE_CONTROLLO;
 		return "";
 	}
 
@@ -61,13 +57,10 @@ public class Utility {
 		int i, c, s;
 		if( pi.length() == 0 )  return "";
 		if( pi.length() != 11 )
-			return "La lunghezza della partita IVA non &egrave;\n"
-			+ "corretta: la partita IVA dovrebbe essere lunga\n"
-			+ "esattamente 11 caratteri.\n";
+			return IConstanti.PIVA_ERRORE_LUNGHEZZA;
 		for( i=0; i<11; i++ ){
 			if( pi.charAt(i) < '0' || pi.charAt(i) > '9' )
-				return "La partita IVA contiene dei caratteri non ammessi:\n"
-				+ "la partita IVA dovrebbe contenere solo cifre.\n";
+				return IConstanti.PIVA_ERRORE_CARATTERI_NON_VALIDI;
 		}
 		s = 0;
 		for( i=0; i<=9; i+=2 )
@@ -78,8 +71,7 @@ public class Utility {
 			s += c;
 		}
 		if( ( 10 - s%10 )%10 != pi.charAt(10) - '0' )
-			return "La partita IVA non &egrave; valida:\n"
-			+ "il codice di controllo non corrisponde.";
+			return IConstanti.PIVA_ERRORE_CODICE_CONTROLLO;
 		return "";
 	}
 
