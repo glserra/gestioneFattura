@@ -85,8 +85,8 @@ public class NewCliente extends JFrame {
 		txtPartitaIva.setColumns(10);
 
 		JLabel icnErrorCF = new JLabel("New label");
-		icnErrorCF.setIcon(new ImageIcon(NewCliente.class.getResource("../../../../images/error.png")));
-		icnErrorCF.setBounds(287, 87, 35, 32);
+		icnErrorCF.setIcon(new ImageIcon(NewCliente.class.getResource("../../../../images/s_s_nono.gif")));
+		icnErrorCF.setBounds(287, 93, 19, 20);
 		icnErrorCF.setVisible(false);
 		contentPane.add(icnErrorCF);
 		
