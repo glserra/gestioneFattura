@@ -1,10 +1,12 @@
 package it.exp75.gestionefatture.business;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import it.exp75.gestionefatture.model.Cliente;
@@ -25,14 +27,28 @@ public class FattureBusiness {
 	
 	private Connection getConnection() throws SQLException {
 		
+		Config config = new Config();
+		HashMap<String, String> prop = null;
+		try {
+			prop = config.getPropValues();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		if(con == null) {
 			MysqlDataSource dataSource = new MysqlDataSource();
-			dataSource.setServerName("127.0.0.1");
-			dataSource.setPortNumber(3306);
-			dataSource.setUser("root");
-			dataSource.setPassword("root");
-			dataSource.setDatabaseName("gestionefatture");
 			
+			 dataSource.setServerName("127.0.0.1");
+			 dataSource.setPortNumber(3306);
+			 dataSource.setUser("root");
+			 dataSource.setPassword("root");
+			 dataSource.setDatabaseName("gestionefatture");
+			
+			
+			/*dataSource.setServerName(prop.get("server"));
+			dataSource.setPortNumber(new Integer(prop.get("port")).intValue());
+			dataSource.setUser(prop.get("user"));
+			dataSource.setPassword(prop.get("password"));
+			dataSource.setDatabaseName(prop.get("database"));*/
 			con = dataSource.getConnection();
 		}
 		return con;
