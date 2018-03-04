@@ -19,6 +19,7 @@ public class Config {
 	public HashMap<String, String> getPropValues() throws IOException {
  
 		HashMap<String, String> hash = null;
+		
 		try {
 			Properties prop = new Properties();
 			String propFileName = "config.properties";

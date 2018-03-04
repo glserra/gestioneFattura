@@ -50,6 +50,7 @@ public class FattureBusiness {
 			dataSource.setPassword(prop.get("password"));
 			dataSource.setDatabaseName(prop.get("database"));*/
 			con = dataSource.getConnection();
+			
 		}
 		return con;
 	}
