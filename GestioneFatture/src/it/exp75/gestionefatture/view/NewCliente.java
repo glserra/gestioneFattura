@@ -23,6 +23,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 public class NewCliente extends JFrame {
 
@@ -36,7 +37,7 @@ public class NewCliente extends JFrame {
 	private JTextField txtCap;
 	private JLabel lblCap;
 	private JTextField txtCitta;
-	private JLabel lblCitt;
+	private JLabel lblCitta;
 	private JTextField txtProvincia;
 	private JLabel lblProvincia;
 	private JTextField txtNote;
@@ -73,22 +74,42 @@ public class NewCliente extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblRagioneSociale = new JLabel(IConstanti.RAGIONE_SOCIALE);
-		lblRagioneSociale.setBounds(34, 34, 82, 14);
+		lblRagioneSociale.setBounds(34, 34, 113, 14);
 		contentPane.add(lblRagioneSociale);
 		
 		txtRagSociale = new JTextField();
-		txtRagSociale.setBounds(126, 31, 439, 20);
+		txtRagSociale.setBounds(159, 31, 406, 20);
 		contentPane.add(txtRagSociale);
 		txtRagSociale.setColumns(10);
 		
+		JLabel icnErrorPI = new JLabel("icnLabel");
+		icnErrorPI.setIcon(new ImageIcon(NewCliente.class.getResource("../resources/images/s_s_nono.gif")));
+		icnErrorPI.setBounds(320, 64, 19, 20);
+		icnErrorPI.setVisible(false);
+		contentPane.add(icnErrorPI);
+		
 		txtPartitaIva = new JTextField();
-		txtPartitaIva.setBounds(126, 62, 151, 20);
+		txtPartitaIva.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				icnErrorPI.setVisible(false);
+				if(txtPartitaIva.getText().length() > 0) {
+					String resultCheckPI = Utility.ControllaPIVA(txtPartitaIva.getText());
+					if(!"".equals(resultCheckPI)) {
+						icnErrorPI.setVisible(true);
+						JOptionPane.showMessageDialog(null, resultCheckPI);
+					}
+				}
+			}
+		});
+
+		txtPartitaIva.setBounds(159, 63, 151, 20);
 		contentPane.add(txtPartitaIva);
 		txtPartitaIva.setColumns(10);
 
-		JLabel icnErrorCF = new JLabel("icnLabel");
+		JLabel icnErrorCF = new JLabel("icnLabel2");
 		icnErrorCF.setIcon(new ImageIcon(NewCliente.class.getResource("../resources/images/s_s_nono.gif")));
-		icnErrorCF.setBounds(287, 93, 19, 20);
+		icnErrorCF.setBounds(320, 93, 19, 20);
 		icnErrorCF.setVisible(false);
 		contentPane.add(icnErrorCF);
 		
@@ -107,7 +128,7 @@ public class NewCliente extends JFrame {
 			}
 		});
 
-		txtCodFiscale.setBounds(126, 93, 151, 20);
+		txtCodFiscale.setBounds(159, 93, 151, 20);
 		contentPane.add(txtCodFiscale);
 		txtCodFiscale.setColumns(10);
 		
@@ -116,7 +137,7 @@ public class NewCliente extends JFrame {
 		contentPane.add(lblPartitaIva);
 		
 		JLabel lblCodiceFiscale = new JLabel(IConstanti.CODICE_FISCALE);
-		lblCodiceFiscale.setBounds(34, 96, 82, 14);
+		lblCodiceFiscale.setBounds(34, 96, 113, 14);
 		contentPane.add(lblCodiceFiscale);
 		
 		JButton btnAnnulla = new JButton("Annulla");
@@ -150,10 +171,14 @@ public class NewCliente extends JFrame {
 				
 				if(Utility.checkRequiredFieldEmpty(partitaIva)) {
 					error += "- " + IConstanti.PARTITA_IVA + "\n";
+				} else {
+					error += "- " + Utility.ControllaPIVA(partitaIva).replace("\n","") + "\n";
 				}
 				
 				if(Utility.checkRequiredFieldEmpty(codFiscale)) {
 					error += "- " + IConstanti.CODICE_FISCALE + "\n";
+				} else {
+					error += "- " + Utility.ControllaCF(codFiscale).replace("\n",	"") + "\n";
 				}
 				
 				if(Utility.checkRequiredFieldEmpty(indirizzo)) {
@@ -214,16 +239,16 @@ public class NewCliente extends JFrame {
 		contentPane.add(btnSalva);
 		
 		lblIndirizzo = new JLabel(IConstanti.INDIRIZZO);
-		lblIndirizzo.setBounds(34, 127, 46, 14);
+		lblIndirizzo.setBounds(34, 127, 82, 14);
 		contentPane.add(lblIndirizzo);
 		
 		txtIndirizzo = new JTextField();
-		txtIndirizzo.setBounds(126, 124, 439, 20);
+		txtIndirizzo.setBounds(159, 124, 406, 20);
 		contentPane.add(txtIndirizzo);
 		txtIndirizzo.setColumns(10);
 		
 		txtCap = new JTextField();
-		txtCap.setBounds(126, 155, 46, 20);
+		txtCap.setBounds(159, 155, 46, 20);
 		contentPane.add(txtCap);
 		txtCap.setColumns(10);
 		
@@ -232,25 +257,25 @@ public class NewCliente extends JFrame {
 		contentPane.add(lblCap);
 		
 		txtCitta = new JTextField();
-		txtCitta.setBounds(126, 186, 238, 20);
+		txtCitta.setBounds(159, 186, 238, 20);
 		contentPane.add(txtCitta);
 		txtCitta.setColumns(10);
 		
-		lblCitt = new JLabel(IConstanti.CITTA);
-		lblCitt.setBounds(34, 189, 46, 14);
-		contentPane.add(lblCitt);
+		lblCitta = new JLabel(IConstanti.CITTA);
+		lblCitta.setBounds(34, 189, 60, 14);
+		contentPane.add(lblCitta);
 		
 		txtProvincia = new JTextField();
-		txtProvincia.setBounds(126, 221, 27, 20);
+		txtProvincia.setBounds(159, 221, 27, 20);
 		contentPane.add(txtProvincia);
 		txtProvincia.setColumns(10);
 		
 		lblProvincia = new JLabel(IConstanti.PROVINCIA);
-		lblProvincia.setBounds(34, 224, 46, 14);
+		lblProvincia.setBounds(34, 224, 82, 14);
 		contentPane.add(lblProvincia);
 		
 		txtNote = new JTextField();
-		txtNote.setBounds(126, 256, 439, 20);
+		txtNote.setBounds(159, 256, 406, 20);
 		contentPane.add(txtNote);
 		txtNote.setColumns(10);
 		
