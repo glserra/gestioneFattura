@@ -14,15 +14,15 @@ import it.exp75.gestionefatture.model.Cliente;
 
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 
-public class FattureBusiness {
+public class ClientiBusiness {
 	
-	private static FattureBusiness fb;
+	private static ClientiBusiness cb;
 	
-	public static FattureBusiness getInstance() {
-		if(fb == null) {
-			fb = new FattureBusiness();
+	public static ClientiBusiness getInstance() {
+		if(cb == null) {
+			cb = new ClientiBusiness();
 		}
-		return fb;
+		return cb;
 	}
 	
 	public List<Cliente> listaClienti() throws SQLException{

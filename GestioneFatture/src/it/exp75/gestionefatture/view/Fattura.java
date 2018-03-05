@@ -16,6 +16,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import it.exp75.gestionefatture.business.ClientiBusiness;
 import it.exp75.gestionefatture.business.FattureBusiness;
 import it.exp75.gestionefatture.model.Cliente;
 
@@ -94,7 +95,7 @@ public class Fattura {
 				
 				List<Cliente> cliente;
 				try {
-					cliente = FattureBusiness.getInstance().listaClienti();
+					cliente = ClientiBusiness.getInstance().listaClienti();
 					for(Cliente c: cliente) {
 						Vector rowData = new Vector();
 						rowData.add(c.getId());

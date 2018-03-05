@@ -8,7 +8,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import it.exp75.gestionefatture.business.ClientiBusiness;
 import it.exp75.gestionefatture.business.FattureBusiness;
+import it.exp75.gestionefatture.business.IConstanti;
 import it.exp75.gestionefatture.business.Utility;
 import it.exp75.gestionefatture.model.Cliente;
 
@@ -70,7 +72,7 @@ public class NewCliente extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblRagioneSociale = new JLabel("Ragione Sociale");
+		JLabel lblRagioneSociale = new JLabel(IConstanti.RAGIONE_SOCIALE);
 		lblRagioneSociale.setBounds(34, 34, 82, 14);
 		contentPane.add(lblRagioneSociale);
 		
@@ -84,7 +86,7 @@ public class NewCliente extends JFrame {
 		contentPane.add(txtPartitaIva);
 		txtPartitaIva.setColumns(10);
 
-		JLabel icnErrorCF = new JLabel("New label");
+		JLabel icnErrorCF = new JLabel("icnLabel");
 		icnErrorCF.setIcon(new ImageIcon(NewCliente.class.getResource("../resources/images/s_s_nono.gif")));
 		icnErrorCF.setBounds(287, 93, 19, 20);
 		icnErrorCF.setVisible(false);
@@ -109,11 +111,11 @@ public class NewCliente extends JFrame {
 		contentPane.add(txtCodFiscale);
 		txtCodFiscale.setColumns(10);
 		
-		JLabel lblPartitaIva = new JLabel("Partita IVA");
+		JLabel lblPartitaIva = new JLabel(IConstanti.PARTITA_IVA);
 		lblPartitaIva.setBounds(34, 67, 82, 14);
 		contentPane.add(lblPartitaIva);
 		
-		JLabel lblCodiceFiscale = new JLabel("Codice Fiscale");
+		JLabel lblCodiceFiscale = new JLabel(IConstanti.CODICE_FISCALE);
 		lblCodiceFiscale.setBounds(34, 96, 82, 14);
 		contentPane.add(lblCodiceFiscale);
 		
@@ -131,37 +133,87 @@ public class NewCliente extends JFrame {
 		btnSalva.setIcon(new ImageIcon(NewCliente.class.getResource("/com/sun/java/swing/plaf/windows/icons/FloppyDrive.gif")));
 		btnSalva.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Cliente cl = new Cliente();
-				cl.setRagioneSociale(txtRagSociale.getText());
-				cl.setPartitaIva(txtPartitaIva.getText());
-				cl.setCodiceFiscale(txtCodFiscale.getText());
-				cl.setIndirizzo(txtIndirizzo.getText());
-				cl.setCap(txtCap.getText());
-				cl.setCitta(txtCap.getText());
-				cl.setProvincia(txtProvincia.getText());
-				cl.setNote(txtNote.getText());
 				
-				try {
-					int idCliente = 0;
-					if(IDCLIENTE > 0) {
-						idCliente = FattureBusiness.getInstance().salvaCliente(cl);
-					} else {
-						idCliente = FattureBusiness.getInstance().updateCliente(cl);
-					}
+				String ragSociale = txtRagSociale.getText();
+				String partitaIva = txtPartitaIva.getText();
+				String codFiscale = txtCodFiscale.getText();
+				String indirizzo = txtIndirizzo.getText();
+				String cap = txtCap.getText();
+				String citta = txtCitta.getText();
+				String provincia = txtProvincia.getText();
+				String note = txtNote.getText();
+				
+				String error = "";
+				if(Utility.checkRequiredFieldEmpty(ragSociale)) {
+					error += "- " + IConstanti.RAGIONE_SOCIALE + "\n";
+				}
+				
+				if(Utility.checkRequiredFieldEmpty(partitaIva)) {
+					error += "- " + IConstanti.PARTITA_IVA + "\n";
+				}
+				
+				if(Utility.checkRequiredFieldEmpty(codFiscale)) {
+					error += "- " + IConstanti.CODICE_FISCALE + "\n";
+				}
+				
+				if(Utility.checkRequiredFieldEmpty(indirizzo)) {
+					error += "- " + IConstanti.INDIRIZZO + "\n";
+				}
+
+				if(Utility.checkRequiredFieldEmpty(cap)) {
+					error += "- " + IConstanti.CAP + "\n";
+				}
+
+				if(Utility.checkRequiredFieldEmpty(citta)) {
+					error += "- " + IConstanti.CITTA + "\n";
+				}
+
+				if(Utility.checkRequiredFieldEmpty(provincia)) {
+					error += "- " + IConstanti.PROVINCIA + "\n";
+				}
+
+
+				if(error.trim().length() > 0 || !error.equals("")) {
+
+					error = "I segunti compi sono obbligatori:\n" + error;
+					JOptionPane.showMessageDialog(null, error);
 					
-					if(idCliente > 0) {
-						JOptionPane.showMessageDialog(null, "Cliente salvato con successo!");
+				} else {
+
+
+					Cliente cl = new Cliente();
+					cl.setRagioneSociale(ragSociale);
+					cl.setPartitaIva(partitaIva);
+					cl.setCodiceFiscale(codFiscale);
+					cl.setIndirizzo(indirizzo);
+					cl.setCap(cap);
+					cl.setCitta(citta);
+					cl.setProvincia(provincia);
+					cl.setNote(note);
+
+					try {
+						int idCliente = 0;
+						if(IDCLIENTE > 0) {
+							cl.setId(IDCLIENTE);
+							idCliente = ClientiBusiness.getInstance().updateCliente(cl);
+						} else {
+							idCliente = ClientiBusiness.getInstance().salvaCliente(cl);
+						}
+
+						if(idCliente > 0) {
+							JOptionPane.showMessageDialog(null, "Cliente salvato con successo!");
+						}
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
 				}
 			}
 		});
 		btnSalva.setBounds(368, 371, 106, 23);
 		contentPane.add(btnSalva);
 		
-		lblIndirizzo = new JLabel("Indirizzo");
+		lblIndirizzo = new JLabel(IConstanti.INDIRIZZO);
 		lblIndirizzo.setBounds(34, 127, 46, 14);
 		contentPane.add(lblIndirizzo);
 		
@@ -175,7 +227,7 @@ public class NewCliente extends JFrame {
 		contentPane.add(txtCap);
 		txtCap.setColumns(10);
 		
-		lblCap = new JLabel("CAP");
+		lblCap = new JLabel(IConstanti.CAP);
 		lblCap.setBounds(34, 158, 46, 14);
 		contentPane.add(lblCap);
 		
@@ -184,7 +236,7 @@ public class NewCliente extends JFrame {
 		contentPane.add(txtCitta);
 		txtCitta.setColumns(10);
 		
-		lblCitt = new JLabel("Citt\u00E0");
+		lblCitt = new JLabel(IConstanti.CITTA);
 		lblCitt.setBounds(34, 189, 46, 14);
 		contentPane.add(lblCitt);
 		
@@ -193,7 +245,7 @@ public class NewCliente extends JFrame {
 		contentPane.add(txtProvincia);
 		txtProvincia.setColumns(10);
 		
-		lblProvincia = new JLabel("Provincia");
+		lblProvincia = new JLabel(IConstanti.PROVINCIA);
 		lblProvincia.setBounds(34, 224, 46, 14);
 		contentPane.add(lblProvincia);
 		
@@ -202,7 +254,7 @@ public class NewCliente extends JFrame {
 		contentPane.add(txtNote);
 		txtNote.setColumns(10);
 		
-		lblNote = new JLabel("Note");
+		lblNote = new JLabel(IConstanti.NOTE);
 		lblNote.setBounds(34, 259, 46, 14);
 		contentPane.add(lblNote);
 		
@@ -210,7 +262,7 @@ public class NewCliente extends JFrame {
 	
 	public void selCliente(Integer id) throws SQLException {
 		
-		Cliente cliente = FattureBusiness.getInstance().cliente(id);
+		Cliente cliente = ClientiBusiness.getInstance().cliente(id);
 		txtRagSociale.setText(cliente.getRagioneSociale());
 		txtPartitaIva.setText(cliente.getPartitaIva());
 		txtCodFiscale.setText(cliente.getCodiceFiscale());

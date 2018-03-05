@@ -46,4 +46,30 @@ public class Config {
 		}
 		return hash;
 	}
+	
+	
+	public Properties getPropertiesValues() throws IOException {
+		Properties props = new Properties();
+		
+		try {
+
+			props = new Properties();
+			String propFileName = "config.properties";
+ 
+			inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+ 
+			if (inputStream != null) {
+				props.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+ 
+
+		} catch (Exception e) {
+			System.out.println("Exception: " + e);
+		} finally {
+			inputStream.close();
+		}
+		return props;
+	}
 }

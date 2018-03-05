@@ -74,5 +74,13 @@ public class Utility {
 			return IConstanti.PIVA_ERRORE_CODICE_CONTROLLO;
 		return "";
 	}
+	
+	public static boolean checkRequiredFieldEmpty(String txt) {
+		if(txt.trim().length() == 0 || txt.equals("")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 }
