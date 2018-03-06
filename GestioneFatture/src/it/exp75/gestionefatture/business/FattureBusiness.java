@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Properties;
 
 import it.exp75.gestionefatture.model.Cliente;
+import it.exp75.gestionefatture.model.Fattura;
 
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 
@@ -25,85 +26,48 @@ public class FattureBusiness {
 		return fb;
 	}
 	
-	public List<Cliente> listaClienti() throws SQLException{
+	public List<Fattura> listaFatture() throws SQLException{
 		
-		String sql = "SELECT * FROM clienti";
+		String sql = "SELECT * FROM fatture";
 		PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
 		
-		List<Cliente> listaClienti = new ArrayList<Cliente>();
+		List<Fattura> listaFatture = new ArrayList<Fattura>();
 		while(rs.next()) {
 			
-			Cliente c = new Cliente();
-			c.setId(rs.getInt(1));
-			c.setPartitaIva(rs.getString(2));
-			c.setCodiceFiscale(rs.getString(3));
-			c.setRagioneSociale(rs.getString(4));
-			c.setIndirizzo(rs.getString(5));
-			c.setCap(rs.getString(6));
-			c.setCitta(rs.getString(7));
-			c.setProvincia(rs.getString(8));
-			c.setNote(rs.getString(9));
-			listaClienti.add(c);
+			Fattura f = new Fattura();
+			f.setId_fattura(rs.getInt(1));
+			f.setId_cliente(rs.getInt(2));
+			f.setNum_fattura(rs.getInt(3));
+			f.setData_fattura(rs.getDate(4));
+			f.setPagamento(rs.getInt(5));
+			f.setPagata(rs.getBoolean(6));
+			f.setNote(rs.getString(7));
+			listaFatture.add(f);
 		}
-		return listaClienti;
+		return listaFatture;
 	}
 	
-	public Cliente cliente(Integer id) throws SQLException {
+	public Fattura fattura(Integer id) throws SQLException {
 		
-		String sql = "SELECT * FROM clienti WHERE ID=?";
+		String sql = "SELECT * FROM fatture WHERE ID=?";
 		PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
 		ps.setInt(1, id.intValue());
 		ResultSet rs = ps.executeQuery();
 		
-		Cliente c = new Cliente();
+		Fattura f = new Fattura();
 		while(rs.next()) {
-			c.setId(rs.getInt(1));
-			c.setPartitaIva(rs.getString(2));
-			c.setCodiceFiscale(rs.getString(3));
-			c.setRagioneSociale(rs.getString(4));
-			c.setIndirizzo(rs.getString(5));
-			c.setCap(rs.getString(6));
-			c.setCitta(rs.getString(7));
-			c.setProvincia(rs.getString(8));
-			c.setNote(rs.getString(9));
+			f.setId_fattura(rs.getInt(1));
+			f.setId_cliente(rs.getInt(2));
+			f.setNum_fattura(rs.getInt(3));
+			f.setData_fattura(rs.getDate(4));
+			f.setPagamento(rs.getInt(5));
+			f.setPagata(rs.getBoolean(6));
+			f.setNote(rs.getString(7));
 		}
 		
-		return c;
+		return f;
 	}
 	
-	public int salvaCliente(Cliente cliente) throws SQLException {
-		
-		String sql = "INSERT INTO clienti (PIVA,CF,Ragione_sociale,Indirizzo,CAP,Citta,Provincia,Note) VALUES (?,?,?,?,?,?,?,?)";
-		PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql,PreparedStatement.RETURN_GENERATED_KEYS);
-		ps.setString(1,cliente.getPartitaIva());
-		ps.setString(2, cliente.getCodiceFiscale());
-		ps.setString(3, cliente.getRagioneSociale());
-		ps.setString(4, cliente.getIndirizzo());
-		ps.setString(5, cliente.getCap());
-		ps.setString(6, cliente.getCitta());
-		ps.setString(7, cliente.getProvincia());
-		ps.setString(8, cliente.getNote());
-		int idCliente = ps.executeUpdate();
-		
-		return idCliente;
-	}
-	
-	public int updateCliente(Cliente cl) throws SQLException {
-		String sql = "UPDATE clienti set PIVA=?,CF=?,Ragione_sociale=?,Indirizzo=?,CAP=?,Citta=?,Provincia=?,Note=? WHERE ID=?";
-		PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
-		ps.setString(1, cl.getPartitaIva());
-		ps.setString(2, cl.getCodiceFiscale());
-		ps.setString(3, cl.getRagioneSociale());
-		ps.setString(4, cl.getIndirizzo());
-		ps.setString(5, cl.getCap());
-		ps.setString(6, cl.getCitta());
-		ps.setString(7, cl.getProvincia());
-		ps.setString(8, cl.getNote());
-		ps.setInt(9, cl.getId());
-		
-		int idCliente = ps.executeUpdate();
-		return idCliente;
-		
-	}
+
 }

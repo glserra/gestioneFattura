@@ -15,6 +15,16 @@ public class Cliente {
 		super();
 	}
 	
+	public Cliente(Integer id, String ragSociale) {
+		this.id = id;
+		this.ragioneSociale = ragSociale;
+	}
+	
+	@Override
+	public String toString() {
+		return ragioneSociale;
+	}
+
 	public Integer getId() {
 		return id;
 	}

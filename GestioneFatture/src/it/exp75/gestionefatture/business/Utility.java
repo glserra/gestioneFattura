@@ -1,5 +1,9 @@
 package it.exp75.gestionefatture.business;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Utility {
 	
 	/*
@@ -81,6 +85,19 @@ public class Utility {
 		} else {
 			return false;
 		}
+	}
+	
+	public static String formatDateToString(Date d) {
+		final String NEW_FORMAT = "dd/MM/yyyy";
+		final String OLD_FORMAT = "yyyy-MM-dd";
+
+		String newDateString;
+
+		SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
+		sdf.applyPattern(NEW_FORMAT);
+		newDateString = sdf.format(d);
+		
+		return newDateString;
 	}
 
 }

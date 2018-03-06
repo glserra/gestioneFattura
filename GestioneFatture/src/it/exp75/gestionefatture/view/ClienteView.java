@@ -25,7 +25,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
-public class NewCliente extends JFrame {
+public class ClienteView extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtRagSociale;
@@ -53,7 +53,7 @@ public class NewCliente extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					NewCliente frame = new NewCliente();
+					ClienteView frame = new ClienteView();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -65,7 +65,7 @@ public class NewCliente extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public NewCliente() {
+	public ClienteView() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 613, 444);
 		contentPane = new JPanel();
@@ -83,7 +83,7 @@ public class NewCliente extends JFrame {
 		txtRagSociale.setColumns(10);
 		
 		JLabel icnErrorPI = new JLabel("icnLabel");
-		icnErrorPI.setIcon(new ImageIcon(NewCliente.class.getResource("../resources/images/s_s_nono.gif")));
+		icnErrorPI.setIcon(new ImageIcon(ClienteView.class.getResource("../resources/images/s_s_nono.gif")));
 		icnErrorPI.setBounds(320, 64, 19, 20);
 		icnErrorPI.setVisible(false);
 		contentPane.add(icnErrorPI);
@@ -108,7 +108,7 @@ public class NewCliente extends JFrame {
 		txtPartitaIva.setColumns(10);
 
 		JLabel icnErrorCF = new JLabel("icnLabel2");
-		icnErrorCF.setIcon(new ImageIcon(NewCliente.class.getResource("../resources/images/s_s_nono.gif")));
+		icnErrorCF.setIcon(new ImageIcon(ClienteView.class.getResource("../resources/images/s_s_nono.gif")));
 		icnErrorCF.setBounds(320, 93, 19, 20);
 		icnErrorCF.setVisible(false);
 		contentPane.add(icnErrorCF);
@@ -141,7 +141,7 @@ public class NewCliente extends JFrame {
 		contentPane.add(lblCodiceFiscale);
 		
 		JButton btnAnnulla = new JButton("Annulla");
-		btnAnnulla.setIcon(new ImageIcon(NewCliente.class.getResource("/javax/swing/plaf/metal/icons/ocean/close.gif")));
+		btnAnnulla.setIcon(new ImageIcon(ClienteView.class.getResource("/javax/swing/plaf/metal/icons/ocean/close.gif")));
 		btnAnnulla.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
@@ -151,7 +151,7 @@ public class NewCliente extends JFrame {
 		contentPane.add(btnAnnulla);
 		
 		btnSalva = new JButton("Salva");
-		btnSalva.setIcon(new ImageIcon(NewCliente.class.getResource("/com/sun/java/swing/plaf/windows/icons/FloppyDrive.gif")));
+		btnSalva.setIcon(new ImageIcon(ClienteView.class.getResource("/com/sun/java/swing/plaf/windows/icons/FloppyDrive.gif")));
 		btnSalva.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
