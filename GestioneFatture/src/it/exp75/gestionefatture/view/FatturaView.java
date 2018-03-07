@@ -1,40 +1,36 @@
 package it.exp75.gestionefatture.view;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
 import it.exp75.gestionefatture.business.ClientiBusiness;
 import it.exp75.gestionefatture.business.FattureBusiness;
 import it.exp75.gestionefatture.model.Cliente;
 import it.exp75.gestionefatture.model.Fattura;
 
-import javax.swing.JScrollPane;
-import javax.swing.JToolBar;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.ItemEvent;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-
 public class FatturaView extends JFrame {
 
 	private JPanel contentPane;
 	private JTable tblPrestazioni;
-	private JComboBox<Cliente> cbClienti;
-	
+	private JComboBox cbClienti;
+	private Map<Integer, Cliente> map = null;
 	/**
 	 * Launch the application.
 	 */
@@ -55,7 +51,7 @@ public class FatturaView extends JFrame {
 	 * Create the frame.
 	 */
 	public FatturaView() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 792, 552);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -82,29 +78,31 @@ public class FatturaView extends JFrame {
 		lblCliente.setBounds(30, 47, 37, 14);
 		contentPane.add(lblCliente);
 		
-		cbClienti = new JComboBox();
+		map = createMap();
+		cbClienti = createComboBox(map);
+
 		
-		Cliente cl = new Cliente();
-		List<Cliente> listaClienti = null;
-		
-		try {
-			listaClienti = ClientiBusiness.getInstance().listaClienti();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		for (Cliente c : listaClienti) {
-			cbClienti.addItem(new Cliente(c.getId(),c.getRagioneSociale()));
-		}
+//		Cliente cl = new Cliente();
+//		List<Cliente> listaClienti = null;
+//		
+//		try {
+//			listaClienti = ClientiBusiness.getInstance().listaClienti();
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		for (Cliente c : listaClienti) {
+//			cbClienti.addItem(new Cliente(c.getId(),c.getRagioneSociale()));
+//		}
 		
 		cbClienti.setBounds(122, 41, 446, 20);
 		contentPane.add(cbClienti);
-		cbClienti.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent arg0) {
-				JOptionPane.showMessageDialog(null, cbClienti.getSelectedIndex());
-			}//((Cliente)cbClienti.getSelectedItem()).getId() +
-		});
+//		cbClienti.addItemListener(new ItemListener() {
+//			public void itemStateChanged(ItemEvent arg0) {
+//				JOptionPane.showMessageDialog(null, cbClienti.getSelectedIndex());
+//			}//((Cliente)cbClienti.getSelectedItem()).getId() +
+//		});
 	}
 	
 	
@@ -115,11 +113,56 @@ public class FatturaView extends JFrame {
 		try {
 			ft = FattureBusiness.getInstance().fattura(idFattura);
 			Cliente cliente = ClientiBusiness.getInstance().cliente(ft.getId_cliente());
-			cbClienti.setSelectedItem(cliente.getRagioneSociale());
+			selectedCliente(cliente.getId());
+			cbClienti.setEnabled(false);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+	}
+	
+	private Map<Integer, Cliente> createMap() {
+		Map<Integer, Cliente> map = new HashMap<>();
+		
+		List<Cliente> listaClienti = null;
+		
+		try {
+			listaClienti = ClientiBusiness.getInstance().listaClienti();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		for (Cliente c : listaClienti) {
+			map.put(c.getId(),new Cliente(c.getId(),c.getRagioneSociale()));
+		}
+		
+		return map;
+	}
+	
+	private JComboBox createComboBox(final Map<Integer, Cliente> map) {
+		final JComboBox cbox = new JComboBox();
+		for (Integer id : map.keySet()) {
+			cbox.addItem(map.get(id));
+		}
+		cbox.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Cliente selectedItem = (Cliente) cbox.getSelectedItem();
+				System.out.println(selectedItem.getId() + " " + selectedItem.getRagioneSociale());
+			}
+		});
+
+		return cbox;
+	}
+	
+	private void selectedCliente(Integer idCliente) {
+		for (Integer id : map.keySet()) {
+			if(map.get(id).getId() == idCliente) {
+				cbClienti.setSelectedItem(map.get(id));
+			}
+		}
 	}
 }
