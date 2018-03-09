@@ -8,30 +8,37 @@ import java.util.Properties;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 
 public class DBConnection {
+	
+	private static Config configuration;
 
 	public static Connection getConnection() throws SQLException{
 		Connection con = null;
 		
 		Config config = new Config();
-		Properties props = new Properties();
-		
-		try {
-			props = config.getPropertiesValues();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
+
+		setConfiguration(config.getIstance());
+		getConfiguration().loadConfig();
+
 		if(con == null) {
 			MysqlDataSource dataSource = new MysqlDataSource();
 
-			dataSource.setServerName(props.getProperty("server"));
-			dataSource.setPortNumber(new Integer(props.getProperty("port")).intValue());
-			dataSource.setUser(props.getProperty("user"));
-			dataSource.setPassword(props.getProperty("password"));
-			dataSource.setDatabaseName(props.getProperty("database"));
+			dataSource.setServerName(getConfiguration().getDbHost());
+			dataSource.setPortNumber(new Integer(getConfiguration().getDbPort()).intValue());
+			dataSource.setUser(getConfiguration().getDbUser());
+			dataSource.setPassword(getConfiguration().getDbPassword());
+			dataSource.setDatabaseName(getConfiguration().getDbName());
 			con = dataSource.getConnection();
 
 		}
 		return con;
 	}
+	
+	public static Config getConfiguration() {
+		return configuration;
+	}
+
+	public static void setConfiguration(Config config) {
+		configuration = config;
+	}
+
 }

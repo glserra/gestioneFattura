@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.util.Properties;
 import java.util.logging.Logger;
 
+import it.exp75.gestionefatture.resources.Log;
+
 public class Config {
 	
 	private static final String DEFAULT_DB_HOST = "127.0.0.1";
@@ -27,11 +29,11 @@ public class Config {
 	private String dbUser;
 	private String dbPassword;
 	
-	private static Logger logger;
 	private static Config config;
 	
 	private Properties configFile;
 	
+    private static final Logger LOGGER = Logger.getLogger(Config.class.getClass().getName());
 	
 	public static Config getIstance() {
 		if(config == null) {
@@ -46,7 +48,7 @@ public class Config {
 	}
 	
 	private void configure(String dbHost, String dbPort, String dbName, String dbUser, String dbPassword) {
-		logger.info("configure :: setup parametes");
+		LOGGER.info("configure :: setup parametes");
 		
 		getIstance().setDbHost(dbHost);
 		getIstance().setDbPort(dbPort);
@@ -57,14 +59,17 @@ public class Config {
 	}
 
 	public boolean loadConfig() {
-		logger.info("loadConfig :: loading Configuration");
+		LOGGER.info("loadConfig :: loading Configuration");
 		
+		
+		configFile = new Properties();
 		try {
 			configFile.load(getConfigFile());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 		
 		if(configFile != null) {
 			configure(
@@ -84,14 +89,20 @@ public class Config {
 					);
 		}
 		
-		logger.info("loadConfig :: loading Completed");
+		LOGGER.info("loadConfig :: loading Completed");
 		
 		return true;
 	}
 	
-	private InputStream getConfigFile() {
+	private InputStream getConfigFile() throws FileNotFoundException {
 
-		return getClass().getClassLoader().getResourceAsStream(CONFIG_FILE_NAME);
+		InputStream inputStream = getClass().getClassLoader().getResourceAsStream(CONFIG_FILE_NAME);
+
+		if (inputStream == null) {
+			throw new FileNotFoundException("property file '" + CONFIG_FILE_NAME + "' not found in the classpath");
+		}
+		
+		return inputStream;
 	}
 	
 	public String getDbHost() {

@@ -21,6 +21,7 @@ import it.exp75.gestionefatture.business.PagamentiBusiness;
 import it.exp75.gestionefatture.business.Utility;
 import it.exp75.gestionefatture.model.Cliente;
 import it.exp75.gestionefatture.model.Fattura;
+import it.exp75.gestionefatture.resources.Log;
 
 public class GestioneFatturazioneView {
 
@@ -55,6 +56,10 @@ public class GestioneFatturazioneView {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		
+		Log log = new Log();
+		log.setup();
+		
 		frame = new JFrame();
 		frame.setBounds(100, 100, 725, 490);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
