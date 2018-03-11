@@ -80,9 +80,6 @@ public class FatturaView extends JFrame {
 		tblPrestazioni.getColumnModel().getColumn(1).setPreferredWidth(324);
 		scrollPane.setViewportView(tblPrestazioni);
 		
-		//carico le prestazioni da fattura
-		loadPrestazioni();
-		
 		JLabel lblCliente = new JLabel("Cliente:");
 		lblCliente.setBounds(30, 47, 37, 14);
 		contentPane.add(lblCliente);
@@ -125,6 +122,10 @@ public class FatturaView extends JFrame {
 			Cliente cliente = ClientiBusiness.getInstance().cliente(ft.getId_cliente());
 			selectedCliente(cliente.getId());
 			cbClienti.setEnabled(false);
+			
+			//carico le prestazioni da fattura
+			loadPrestazioni();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

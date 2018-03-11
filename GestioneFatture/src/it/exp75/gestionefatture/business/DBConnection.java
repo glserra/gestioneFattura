@@ -13,10 +13,8 @@ public class DBConnection {
 
 	public static Connection getConnection() throws SQLException{
 		Connection con = null;
-		
-		Config config = new Config();
 
-		setConfiguration(config.getIstance());
+		setConfiguration(Config.getIstance());
 		getConfiguration().loadConfig();
 
 		if(con == null) {
