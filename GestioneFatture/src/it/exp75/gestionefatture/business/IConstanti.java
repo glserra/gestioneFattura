@@ -28,4 +28,15 @@ public interface IConstanti {
 	static final String PROVINCIA = "Provincia";
 	static final String NOTE = "NOte";
 
+	/*
+	 * Liste
+	 */
+	static final String LISTA_FATTURE = "Lista Fatture";
+	static final String LISTA_CLIENTI = "Lista Clienti";
+	static final String LISTA_PRESTAZIONI = "Lista Prestazioni";
+	
+	/*
+	 * Messaggi errore
+	 */
+	static final String ERRORE_RECUPERO_DATI = "Si è verificato un errore nel recupero dati: ";
 }

@@ -29,7 +29,8 @@ public class PagamentiBusiness {
 	public Pagamento listaPagamenti() throws SQLException{
 		
 		String sql = "SELECT * FROM pagamenti";
-		PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+		MyDBConnector connector = MyDBConnector.getConnector();
+		PreparedStatement ps = connector.getConnention().prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
 		
 		Pagamento listapagamenti = new Pagamento();
@@ -45,7 +46,8 @@ public class PagamentiBusiness {
 	public String pagamento(Integer id) throws SQLException {
 		
 		String sql = "SELECT * FROM pagamenti WHERE ID=?";
-		PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+		MyDBConnector connector = MyDBConnector.getConnector();
+		PreparedStatement ps = connector.getConnention().prepareStatement(sql);
 		ps.setInt(1, id.intValue());
 		ResultSet rs = ps.executeQuery();
 		

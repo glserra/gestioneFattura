@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-import java.util.logging.Logger;
 
 import it.exp75.gestionefatture.resources.Log;
 
@@ -33,8 +32,6 @@ public class Config {
 	
 	private Properties configFile;
 	
-    private static final Logger LOGGER = Logger.getLogger(Config.class.getClass().getName());
-	
 	public static Config getIstance() {
 		if(config == null) {
 			config = new Config();
@@ -48,8 +45,8 @@ public class Config {
 	}
 	
 	private void configure(String dbHost, String dbPort, String dbName, String dbUser, String dbPassword) {
-		LOGGER.info("configure :: setup parametes");
-		
+		Log.getLogger().info("configure :: setup parametes");
+
 		getIstance().setDbHost(dbHost);
 		getIstance().setDbPort(dbPort);
 		getIstance().setDbName(dbName);
@@ -59,7 +56,7 @@ public class Config {
 	}
 
 	public boolean loadConfig() {
-		LOGGER.info("loadConfig :: loading Configuration");
+		Log.getLogger().info("loadConfig :: loading Configuration");
 		
 		
 		configFile = new Properties();
@@ -89,7 +86,7 @@ public class Config {
 					);
 		}
 		
-		LOGGER.info("loadConfig :: loading Completed");
+		Log.getLogger().info("loadConfig :: loading Completed");
 		
 		return true;
 	}

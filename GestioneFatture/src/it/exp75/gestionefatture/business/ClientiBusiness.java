@@ -27,8 +27,9 @@ public class ClientiBusiness {
 	
 	public List<Cliente> listaClienti() throws SQLException{
 		
-		String sql = "SELECT * FROM clienti";
-		PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+		String sql = "SELECT * FROM clienti ORDER BY Ragione_sociale";
+		MyDBConnector connector = MyDBConnector.getConnector();
+		PreparedStatement ps = connector.getConnention().prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
 		
 		List<Cliente> listaClienti = new ArrayList<Cliente>();
@@ -52,7 +53,8 @@ public class ClientiBusiness {
 	public Cliente cliente(Integer id) throws SQLException {
 		
 		String sql = "SELECT * FROM clienti WHERE ID=?";
-		PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+		MyDBConnector connector = MyDBConnector.getConnector();
+		PreparedStatement ps = connector.getConnention().prepareStatement(sql);
 		ps.setInt(1, id.intValue());
 		ResultSet rs = ps.executeQuery();
 		

@@ -9,6 +9,7 @@ import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -17,6 +18,7 @@ import javax.swing.table.DefaultTableModel;
 
 import it.exp75.gestionefatture.business.ClientiBusiness;
 import it.exp75.gestionefatture.business.FattureBusiness;
+import it.exp75.gestionefatture.business.IConstanti;
 import it.exp75.gestionefatture.business.PagamentiBusiness;
 import it.exp75.gestionefatture.business.Utility;
 import it.exp75.gestionefatture.model.Cliente;
@@ -113,6 +115,7 @@ public class GestioneFatturazioneView {
 						dtm.addRow(rowData);
 					}
 				} catch (SQLException e) {
+					showMessageErroreRecuperoDati(IConstanti.LISTA_CLIENTI, e);
 					e.printStackTrace();
 				}
 				
@@ -211,6 +214,7 @@ public class GestioneFatturazioneView {
 						dtm.addRow(rowData);
 					}
 				} catch (SQLException e) {
+					showMessageErroreRecuperoDati(IConstanti.LISTA_FATTURE, e);
 					e.printStackTrace();
 				}
 			}
@@ -244,5 +248,10 @@ public class GestioneFatturazioneView {
 		});
 		btnVedi.setBounds(208, 21, 89, 23);
 		pnlFatture.add(btnVedi);
+	}
+	
+	private void showMessageErroreRecuperoDati(String txt, Exception e) {
+		JOptionPane.showMessageDialog(null, IConstanti.ERRORE_RECUPERO_DATI + txt);
+		Log.getLogger().info(txt + ": " + e);
 	}
 }

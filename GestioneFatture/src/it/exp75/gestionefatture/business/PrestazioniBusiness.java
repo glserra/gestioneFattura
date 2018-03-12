@@ -29,7 +29,8 @@ public class PrestazioniBusiness {
 	public List<Prestazione> listaPrestazioni(Integer idFattura) throws SQLException{
 		
 		String sql = "SELECT * FROM prestazioni WHERE ID_fattura=?";
-		PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+		MyDBConnector connector = MyDBConnector.getConnector();
+		PreparedStatement ps = connector.getConnention().prepareStatement(sql);
 		ps.setInt(1, idFattura.intValue());
 		ResultSet rs = ps.executeQuery();
 		

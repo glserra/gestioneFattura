@@ -14,8 +14,7 @@ import java.util.logging.SimpleFormatter;
 public class Log {
 
 	    static Handler fileHandler = null;
-	    private static final Logger LOGGER = Logger.getLogger(Log.class
-	            .getClass().getName());
+	    private static final Logger LOGGER = Logger.getLogger(Log.class.getClass().getName());
 
 	    public static void setup() {
 
@@ -31,5 +30,9 @@ public class Log {
 	        }
 
 	    }
+
+		public static Logger getLogger() {
+			return LOGGER;
+		}
 	
 }
