@@ -27,6 +27,9 @@ import it.exp75.gestionefatture.business.PrestazioniBusiness;
 import it.exp75.gestionefatture.model.Cliente;
 import it.exp75.gestionefatture.model.Fattura;
 import it.exp75.gestionefatture.model.Prestazione;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import java.awt.Font;
 
 public class FatturaView extends JFrame {
 
@@ -36,6 +39,10 @@ public class FatturaView extends JFrame {
 	private Map<Integer, Cliente> map = null;
 	
 	private static Integer ID_FATTURA;
+	private JTextField txtImponibile;
+	private JTextField txtIva;
+	private JTextField txtTotale;
+	private JTextField txtNote;
 	
 	/**
 	 * Launch the application.
@@ -58,30 +65,30 @@ public class FatturaView extends JFrame {
 	 */
 	public FatturaView() {
 //		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 792, 552);
+		setBounds(100, 100, 792, 641);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 72, 756, 431);
+		scrollPane.setBounds(10, 118, 756, 286);
 		contentPane.add(scrollPane);
 		
 		tblPrestazioni = new JTable();
 		tblPrestazioni.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null, null},
+				{null, null, null, null, null, null},
 			},
 			new String[] {
-				"Sezione", "Descrizione", "UM", "IVA", "importo"
+				"Sezione", "Descrizione", "Q", "UM", "IVA", "importo"
 			}
 		));
 		tblPrestazioni.getColumnModel().getColumn(1).setPreferredWidth(324);
 		scrollPane.setViewportView(tblPrestazioni);
 		
 		JLabel lblCliente = new JLabel("Cliente:");
-		lblCliente.setBounds(30, 47, 37, 14);
+		lblCliente.setBounds(81, 14, 73, 14);
 		contentPane.add(lblCliente);
 		
 		map = createMap();
@@ -102,8 +109,52 @@ public class FatturaView extends JFrame {
 //			cbClienti.addItem(new Cliente(c.getId(),c.getRagioneSociale()));
 //		}
 		
-		cbClienti.setBounds(122, 41, 446, 20);
+		cbClienti.setBounds(164, 11, 446, 20);
 		contentPane.add(cbClienti);
+		
+		JLabel lblImponibile = new JLabel("Imponibile");
+		lblImponibile.setBounds(548, 437, 73, 14);
+		contentPane.add(lblImponibile);
+		
+		txtImponibile = new JTextField();
+		txtImponibile.setHorizontalAlignment(SwingConstants.RIGHT);
+		txtImponibile.setEditable(false);
+		txtImponibile.setBounds(634, 434, 86, 20);
+		contentPane.add(txtImponibile);
+		txtImponibile.setColumns(10);
+		
+		JLabel lblIva = new JLabel("IVA");
+		lblIva.setBounds(548, 467, 73, 14);
+		contentPane.add(lblIva);
+		
+		txtIva = new JTextField();
+		txtIva.setHorizontalAlignment(SwingConstants.RIGHT);
+		txtIva.setEditable(false);
+		txtIva.setColumns(10);
+		txtIva.setBounds(634, 464, 86, 20);
+		contentPane.add(txtIva);
+		
+		JLabel lblTotale = new JLabel("Totale");
+		lblTotale.setBounds(548, 499, 73, 14);
+		contentPane.add(lblTotale);
+		
+		txtTotale = new JTextField();
+		txtTotale.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		txtTotale.setHorizontalAlignment(SwingConstants.RIGHT);
+		txtTotale.setEditable(false);
+		txtTotale.setColumns(10);
+		txtTotale.setBounds(634, 496, 86, 20);
+		contentPane.add(txtTotale);
+		
+		txtNote = new JTextField();
+		txtNote.setEditable(false);
+		txtNote.setBounds(10, 496, 352, 20);
+		contentPane.add(txtNote);
+		txtNote.setColumns(10);
+		
+		JLabel lblNote = new JLabel("Note");
+		lblNote.setBounds(10, 467, 46, 14);
+		contentPane.add(lblNote);
 //		cbClienti.addItemListener(new ItemListener() {
 //			public void itemStateChanged(ItemEvent arg0) {
 //				JOptionPane.showMessageDialog(null, cbClienti.getSelectedIndex());
@@ -123,6 +174,7 @@ public class FatturaView extends JFrame {
 			selectedCliente(cliente.getId());
 			cbClienti.setEnabled(false);
 			
+			txtNote.setText(ft.getNote());
 			//carico le prestazioni da fattura
 			loadPrestazioni();
 			
@@ -184,6 +236,10 @@ public class FatturaView extends JFrame {
 			dtm.removeRow(0);
 		}
 		
+		Double imponibile = 0.0;
+		Double iva = 0.0;
+		Double totale = 0.0;
+		
 		List<Prestazione> prestazioni;
 		try {
 			prestazioni = PrestazioniBusiness.getInstance().listaPrestazioni(ID_FATTURA);
@@ -191,11 +247,22 @@ public class FatturaView extends JFrame {
 				Vector rowData = new Vector();
 				rowData.add(p.getSezione());
 				rowData.add(p.getDescrizione());
+				rowData.add(p.getQuantita());
 				rowData.add(p.getUnita_misura());
 				rowData.add(p.getIva());
 				rowData.add(p.getImporto());
 				dtm.addRow(rowData);
+				
+				imponibile += p.getQuantita()*p.getImporto();
+				iva += p.getImporto()*((p.getIva().doubleValue())/100);
+				totale += p.getImporto()*(1+(p.getIva()/100));
+				
 			}
+			
+			txtImponibile.setText(imponibile.toString());
+			txtIva.setText(iva.toString());
+			txtTotale.setText(totale.toString());
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
