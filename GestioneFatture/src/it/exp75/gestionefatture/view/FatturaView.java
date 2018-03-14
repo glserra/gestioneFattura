@@ -30,6 +30,8 @@ import it.exp75.gestionefatture.model.Prestazione;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import javax.swing.JButton;
+import javax.swing.ImageIcon;
 
 public class FatturaView extends JFrame {
 
@@ -88,7 +90,7 @@ public class FatturaView extends JFrame {
 		scrollPane.setViewportView(tblPrestazioni);
 		
 		JLabel lblCliente = new JLabel("Cliente:");
-		lblCliente.setBounds(81, 14, 73, 14);
+		lblCliente.setBounds(81, 51, 73, 14);
 		contentPane.add(lblCliente);
 		
 		map = createMap();
@@ -109,7 +111,7 @@ public class FatturaView extends JFrame {
 //			cbClienti.addItem(new Cliente(c.getId(),c.getRagioneSociale()));
 //		}
 		
-		cbClienti.setBounds(164, 11, 446, 20);
+		cbClienti.setBounds(164, 48, 446, 20);
 		contentPane.add(cbClienti);
 		
 		JLabel lblImponibile = new JLabel("Imponibile");
@@ -155,6 +157,16 @@ public class FatturaView extends JFrame {
 		JLabel lblNote = new JLabel("Note");
 		lblNote.setBounds(10, 467, 46, 14);
 		contentPane.add(lblNote);
+		
+		JButton btnPrintPdf = new JButton("Stampa PDF");
+		btnPrintPdf.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+			}
+		});
+		btnPrintPdf.setIcon(new ImageIcon(FatturaView.class.getResource("/it/exp75/gestionefatture/resources/images/s_x__pdf.gif")));
+		btnPrintPdf.setBounds(634, 11, 119, 23);
+		contentPane.add(btnPrintPdf);
 //		cbClienti.addItemListener(new ItemListener() {
 //			public void itemStateChanged(ItemEvent arg0) {
 //				JOptionPane.showMessageDialog(null, cbClienti.getSelectedIndex());
