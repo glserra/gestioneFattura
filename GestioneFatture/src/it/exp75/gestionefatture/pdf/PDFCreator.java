@@ -7,6 +7,7 @@ import java.net.MalformedURLException;
 import java.util.Date;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import com.itextpdf.text.BadElementException;
 
@@ -24,10 +25,15 @@ import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.ColumnText;
+import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import it.exp75.gestionefatture.model.Cliente;
+import it.exp75.gestionefatture.model.Prestazione;
+import it.exp75.gestionefatture.resources.Log;
 
 /**
 
@@ -37,7 +43,7 @@ import it.exp75.gestionefatture.model.Cliente;
 
 public class PDFCreator {
 
-	private final static String[] HEADER_ARRAY = {"S.No.", "CompanyName", "Income", "Year"};
+	private final static String[] HEADER_ARRAY = {"S.No.", "CompanyName", "Income", "Year", "Income", "Year"};
 	public final static Font SMALL_BOLD = new Font(Font.FontFamily.TIMES_ROMAN, 8, Font.BOLD);
 	public final static Font MEDIUM_BOLD = new Font(Font.FontFamily.TIMES_ROMAN, 10, Font.BOLD);
 	public final static Font MEDIUM_BOLD_ITALIC = new Font(Font.FontFamily.TIMES_ROMAN, 10, Font.BOLDITALIC);
@@ -55,6 +61,65 @@ public class PDFCreator {
 
 	}
 
+
+
+	public static void addPrestazioni(Document document, List<Prestazione> prestaz) throws DocumentException {
+
+		Paragraph paragraph = new Paragraph();
+		paragraph.setFont(NORMAL_FONT);
+		createPrestazioniTable(paragraph, prestaz);
+		document.add(paragraph);
+
+	}
+		
+	
+	private static void createPrestazioniTable(Paragraph paragraph, List<Prestazione> prestazioni) throws DocumentException {
+
+		addEmptyLine(paragraph, 4);
+		
+		PdfPTable table = new PdfPTable(6);
+//		table.setWidthPercentage(100);
+		table.setTotalWidth(550);
+		table.setLockedWidth(true);
+		int[] mis = {20,80,5,5,5,10};
+		table.setWidths(mis);
+
+		if(null == prestazioni){
+
+			paragraph.add(new Chunk("No data to display."));
+			return;
+
+		}
+
+		addHeaderInTable(HEADER_ARRAY, table);
+
+		int count = 1;
+
+		for(Prestazione prest : prestazioni){
+
+			addToTable(table, prest.getSezione());
+			addToTable(table, prest.getDescrizione());
+			addToTable(table, prest.getQuantita());
+			addToTable(table, prest.getUnita_misura());
+			addToTable(table, prest.getIva());
+			addToTable(table, prest.getImporto());
+
+
+		}
+		
+
+			table.setSplitLate(false);
+
+		
+		Log.getLogger().info("altezza tabella: " + new Float(table.getTotalHeight()).toString());
+		paragraph.add(table);
+
+	}
+	
+	/*
+	 *  old  
+	 */
+	
 	public static void addContent(Document document, List<DataObject> dataObjList) throws DocumentException {
 
 		Paragraph paragraph = new Paragraph();
@@ -63,7 +128,7 @@ public class PDFCreator {
 		document.add(paragraph);
 
 	}
-
+	
 	private static void createReportTable(Paragraph paragraph, List<DataObject> dataObjList) throws BadElementException {
 
 		PdfPTable table = new PdfPTable(4);
@@ -95,6 +160,12 @@ public class PDFCreator {
 
 	}
 
+	
+	/*
+	 *  old END 
+	 */
+	
+	
 	/** Helper methods start here **/  
 
 	public static void addTitlePage(Document document, String title) throws DocumentException {
@@ -181,6 +252,18 @@ public class PDFCreator {
 		
 	}
 
+	public static void addToTable(PdfPTable table, Double data){        
+		
+		table.addCell(new Phrase(data.toString(), PDFCreator.NORMAL_FONT));
+		
+	}
+	
+	public static void addToTable(PdfPTable table, Integer data){        
+		
+		table.addCell(new Phrase(data.toString(), PDFCreator.NORMAL_FONT));
+		
+	}
+	
 	
 	public static Paragraph getParagraph(){        
 

@@ -25,8 +25,13 @@ import it.exp75.gestionefatture.business.ClientiBusiness;
 import it.exp75.gestionefatture.business.FattureBusiness;
 import it.exp75.gestionefatture.business.PrestazioniBusiness;
 import it.exp75.gestionefatture.model.Cliente;
+import it.exp75.gestionefatture.model.DatiFattura;
 import it.exp75.gestionefatture.model.Fattura;
+import it.exp75.gestionefatture.model.Misure;
+import it.exp75.gestionefatture.model.Pagamento;
 import it.exp75.gestionefatture.model.Prestazione;
+import it.exp75.gestionefatture.pdf.CreaPdf;
+
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import java.awt.Font;
@@ -45,6 +50,11 @@ public class FatturaView extends JFrame {
 	private JTextField txtIva;
 	private JTextField txtTotale;
 	private JTextField txtNote;
+	private Fattura ft;
+	private Cliente cliente;
+	private List<Prestazione> prestazioni;
+	private Pagamento pagamento;
+	private List<Misure> misure;
 	
 	/**
 	 * Launch the application.
@@ -95,21 +105,6 @@ public class FatturaView extends JFrame {
 		
 		map = createMap();
 		cbClienti = createComboBox(map);
-
-		
-//		Cliente cl = new Cliente();
-//		List<Cliente> listaClienti = null;
-//		
-//		try {
-//			listaClienti = ClientiBusiness.getInstance().listaClienti();
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//		for (Cliente c : listaClienti) {
-//			cbClienti.addItem(new Cliente(c.getId(),c.getRagioneSociale()));
-//		}
 		
 		cbClienti.setBounds(164, 48, 446, 20);
 		contentPane.add(cbClienti);
@@ -161,7 +156,8 @@ public class FatturaView extends JFrame {
 		JButton btnPrintPdf = new JButton("Stampa PDF");
 		btnPrintPdf.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				DatiFattura df = new DatiFattura(cliente, ft, prestazioni, pagamento, misure);
+				CreaPdf.creaFatturaPdf(df);
 			}
 		});
 		btnPrintPdf.setIcon(new ImageIcon(FatturaView.class.getResource("/it/exp75/gestionefatture/resources/images/s_x__pdf.gif")));
@@ -177,12 +173,11 @@ public class FatturaView extends JFrame {
 	
 	public void selFattura(Integer idFattura) {
 		
-		Fattura ft = null;
 		ID_FATTURA = idFattura;
 		
 		try {
 			ft = FattureBusiness.getInstance().fattura(idFattura);
-			Cliente cliente = ClientiBusiness.getInstance().cliente(ft.getId_cliente());
+			cliente = ClientiBusiness.getInstance().cliente(ft.getId_cliente());
 			selectedCliente(cliente.getId());
 			cbClienti.setEnabled(false);
 			
@@ -251,8 +246,7 @@ public class FatturaView extends JFrame {
 		Double imponibile = 0.0;
 		Double iva = 0.0;
 		Double totale = 0.0;
-		
-		List<Prestazione> prestazioni;
+
 		try {
 			prestazioni = PrestazioniBusiness.getInstance().listaPrestazioni(ID_FATTURA);
 			for(Prestazione p: prestazioni) {

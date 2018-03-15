@@ -87,14 +87,14 @@ public class Utility {
 		}
 	}
 	
-	public static String formatDateToString(Date d) {
-		final String NEW_FORMAT = "dd/MM/yyyy";
+	public static String formatDateToString(Date d, String formatoData) {
+//		final String NEW_FORMAT = "dd/MM/yyyy";
 		final String OLD_FORMAT = "yyyy-MM-dd";
 
 		String newDateString;
 
 		SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
-		sdf.applyPattern(NEW_FORMAT);
+		sdf.applyPattern(formatoData);
 		newDateString = sdf.format(d);
 		
 		return newDateString;

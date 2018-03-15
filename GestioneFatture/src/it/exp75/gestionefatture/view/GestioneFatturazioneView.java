@@ -206,7 +206,7 @@ public class GestioneFatturazioneView {
 						cl = ClientiBusiness.getInstance().cliente(f.getId_cliente());
 						rowData.add(cl.getRagioneSociale());
 						
-						rowData.add(Utility.formatDateToString((f.getData_fattura())));
+						rowData.add(Utility.formatDateToString(f.getData_fattura(), "dd/MM/yyyy"));
 						
 						String pagamento = PagamentiBusiness.getInstance().pagamento(f.getPagamento());
 						rowData.add(pagamento);

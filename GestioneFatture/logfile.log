@@ -1,6 +1,8 @@
-mar 13, 2018 5:40:36 PM it.exp75.gestionefatture.business.Config loadConfig
+mar 15, 2018 4:40:08 PM it.exp75.gestionefatture.business.Config loadConfig
 INFORMAZIONI: loadConfig :: loading Configuration
-mar 13, 2018 5:40:36 PM it.exp75.gestionefatture.business.Config configure
+mar 15, 2018 4:40:08 PM it.exp75.gestionefatture.business.Config configure
 INFORMAZIONI: configure :: setup parametes
-mar 13, 2018 5:40:36 PM it.exp75.gestionefatture.business.Config loadConfig
+mar 15, 2018 4:40:08 PM it.exp75.gestionefatture.business.Config loadConfig
 INFORMAZIONI: loadConfig :: loading Completed
+mar 15, 2018 4:40:14 PM it.exp75.gestionefatture.pdf.PDFCreator createPrestazioniTable
+INFORMAZIONI: altezza tabella: 572.0
