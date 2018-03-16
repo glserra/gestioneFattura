@@ -5,6 +5,8 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.ExceptionConverter;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.ColumnText;
@@ -57,12 +59,16 @@ class HeaderFooter extends PdfPageEventHelper {
     
     public void onEndPage(PdfWriter writer, Document document) {
         PdfContentByte cb = writer.getDirectContent();
-//        Phrase header = new Phrase("this is a header", ffont);
+        Phrase header = new Phrase("this is a header", ffont);
         Phrase footer = new Phrase(String.format("Page %2d ",writer.getPageNumber()), ffont);
-//        ColumnText.showTextAligned(cb, Element.ALIGN_CENTER,
-//                header,
-//                (document.right() - document.left()) / 2 + document.leftMargin(),
-//                document.top() + 10, 0);
+        Phrase test = new Phrase();
+        
+        ColumnText.showTextAligned(cb, Element.ALIGN_CENTER,
+                header,
+                (document.right() - document.left()) / 2 + document.leftMargin(),
+                document.top() + 10, 0);
+        
+
         ColumnText.showTextAligned(cb, Element.ALIGN_RIGHT,
                 footer,
                 (document.right() - document.left()) / 2 + document.leftMargin(),

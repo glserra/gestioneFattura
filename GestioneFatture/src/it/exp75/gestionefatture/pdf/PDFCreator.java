@@ -66,6 +66,7 @@ public class PDFCreator {
 	public static void addPrestazioni(Document document, List<Prestazione> prestaz) throws DocumentException {
 
 		Paragraph paragraph = new Paragraph();
+		paragraph.setSpacingAfter(150);
 		paragraph.setFont(NORMAL_FONT);
 		createPrestazioniTable(paragraph, prestaz);
 		document.add(paragraph);

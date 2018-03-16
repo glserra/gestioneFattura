@@ -31,15 +31,16 @@ public class CreaPdf {
 			String titolo = TITLE + numFattFormat + "_" + Utility.formatDateToString(df.getFattura().getData_fattura(), "ddMMyyyy");
 			document = new Document(PageSize.A4);            
 			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(new File(titolo + PDF_EXTENSION)));
-			HeaderFooter event = new HeaderFooter();
+			HeaderFooterPageEvent event = new HeaderFooterPageEvent(df.getCliente());
 //			event.setHeader("Test Report");
 			writer.setPageEvent(event);
+			document.setMargins(20, 20, 200, 200);
 			document.open();
 			PDFCreator.addMetaData(document, titolo);
 //			PDFCreator.addTitlePage(document, TITLE);
 //			PDFCreator.addContent(document, dataObjList);
-			PDFCreator.addAzienda(document);
-			PDFCreator.addCliente(document, df.getCliente());
+//			PDFCreator.addAzienda(document);
+//			PDFCreator.addCliente(document, df.getCliente());
 			PDFCreator.addPrestazioni(document, df.getListaPrestazioni());
 //			PDFCreator.addContent(document, dataObjList);
 			
