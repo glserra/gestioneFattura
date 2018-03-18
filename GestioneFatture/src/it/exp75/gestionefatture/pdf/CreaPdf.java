@@ -15,14 +15,14 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import it.exp75.gestionefatture.business.Utility;
 import it.exp75.gestionefatture.model.Cliente;
-import it.exp75.gestionefatture.model.DatiFattura;
+import it.exp75.gestionefatture.model.DatiStampaFattura;
 
 public class CreaPdf {
 
 	private static final String TITLE = "fattura";
 	public static final String PDF_EXTENSION = ".pdf";
 
-	public static void creaFatturaPdf(DatiFattura df) {
+	public static void creaFatturaPdf(DatiStampaFattura df) {
 
 		Document document = null;
 		try {
@@ -31,7 +31,7 @@ public class CreaPdf {
 			String titolo = TITLE + numFattFormat + "_" + Utility.formatDateToString(df.getFattura().getData_fattura(), "ddMMyyyy");
 			document = new Document(PageSize.A4);            
 			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(new File(titolo + PDF_EXTENSION)));
-			HeaderFooterPageEvent event = new HeaderFooterPageEvent(df.getCliente());
+			HeaderFooterPageEvent event = new HeaderFooterPageEvent(df.getIntestazione(), df.getCliente());
 //			event.setHeader("Test Report");
 			writer.setPageEvent(event);
 			document.setMargins(20, 20, 200, 200);
@@ -44,18 +44,15 @@ public class CreaPdf {
 			PDFCreator.addPrestazioni(document, df.getListaPrestazioni());
 //			PDFCreator.addContent(document, dataObjList);
 			
-			document.newPage();
-			
-			PDFCreator.addAzienda(document);
-			PDFCreator.addCliente(document, df.getCliente());
-			
+//			document.newPage();
+//			
+//			PDFCreator.addAzienda(document);
+//			PDFCreator.addCliente(document, df.getCliente());
+//			
 			
 		}catch (DocumentException | FileNotFoundException e) {
 			e.printStackTrace();
 			System.out.println("FileNotFoundException occurs.." + e.getMessage());
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

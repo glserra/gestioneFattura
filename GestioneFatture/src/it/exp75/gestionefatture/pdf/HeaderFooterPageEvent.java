@@ -1,21 +1,39 @@
 package it.exp75.gestionefatture.pdf;
 
-import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.*;
-
-import it.exp75.gestionefatture.model.Cliente;
-
 import java.io.IOException;
 import java.net.MalformedURLException;
+
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.ExceptionConverter;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.ColumnText;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfName;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPageEventHelper;
+import com.itextpdf.text.pdf.PdfTemplate;
+import com.itextpdf.text.pdf.PdfWriter;
+
+import it.exp75.gestionefatture.model.Cliente;
+import it.exp75.gestionefatture.model.Intestazione;
 
 public class HeaderFooterPageEvent extends PdfPageEventHelper {
 
     private PdfTemplate t;
     private Image total;
     private Cliente cl;
+    private Intestazione intest;
 
-    public HeaderFooterPageEvent(Cliente cliente) {
+    public HeaderFooterPageEvent(Intestazione intest, Cliente cliente) {
 		super();
+		this.intest = intest;
 		this.cl = cliente;
 	}
 
@@ -42,7 +60,7 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
             header.setWidths(new int[]{2, 24});
             header.setTotalWidth(527);
             header.setLockedWidth(true);
-            header.getDefaultCell().setFixedHeight(100);
+            header.getDefaultCell().setFixedHeight(70);
             header.getDefaultCell().setBorder(0);
 //            header.getDefaultCell().setBorder(Rectangle.BOTTOM);
 //            header.getDefaultCell().setBorderColor(BaseColor.LIGHT_GRAY);
@@ -52,27 +70,63 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
             header.addCell(logo);
 
             // add text
-            PdfPCell text = new PdfPCell();
-            text.setPaddingBottom(15);
-            text.setPaddingLeft(10);
+            PdfPCell azienda = new PdfPCell();
+            azienda.setPaddingBottom(15);
+            azienda.setPaddingLeft(10);
 //            text.setBorder(Rectangle.BOTTOM);
 //            text.setBorderColor(BaseColor.LIGHT_GRAY);
-            text.addElement(new Phrase(cl.getRagioneSociale(), new Font(Font.FontFamily.HELVETICA, 12)));
-            text.addElement(new Phrase(cl.getIndirizzo(), new Font(Font.FontFamily.HELVETICA, 8)));
-            text.addElement(new Phrase(cl.getCap() + " " + cl.getCitta(), new Font(Font.FontFamily.HELVETICA, 8)));
-            header.addCell(text);
+            azienda.addElement(new Phrase(intest.getRagione_sociale(), new Font(Font.FontFamily.HELVETICA, 12)));
+            
+            Font fontHelvetica8 = new Font(Font.FontFamily.HELVETICA, 8);
+			
+            azienda.addElement(new Phrase(intest.getIndirizzo(), fontHelvetica8));
+            azienda.addElement(new Phrase(intest.getTelefono(), fontHelvetica8));
+            azienda.addElement(new Phrase(intest.getEmail(), fontHelvetica8));
+            azienda.addElement(new Phrase("CF: " + intest.getCF() + " - P.IVA: " + intest.getPIVA(), fontHelvetica8));
+                        
+            azienda.setBorder(1);
+            header.addCell(azienda);
             
             header.completeRow();
             header.addCell("");
             
-            PdfPCell text1 = new PdfPCell();
-            text1.setIndent(100);
-            text1.setPaddingTop(20);
-            text1.setPaddingLeft(250);
-            text1.addElement(new Phrase( cl.getRagioneSociale(), new Font(Font.FontFamily.HELVETICA, 12)));
-            text1.addElement(new Phrase(cl.getIndirizzo(), new Font(Font.FontFamily.HELVETICA, 8)));
-            text1.addElement(new Phrase(cl.getCap() + " " + cl.getCitta(), new Font(Font.FontFamily.HELVETICA, 8)));
-            header.addCell(text1);
+            PdfPCell cliente = new PdfPCell();
+            cliente.setIndent(150);
+            cliente.setPaddingTop(20);
+            cliente.setPaddingLeft(250);
+            cliente.addElement(new Phrase( cl.getRagioneSociale(), new Font(Font.FontFamily.HELVETICA, 12)));
+            cliente.addElement(new Phrase(cl.getIndirizzo(), fontHelvetica8));
+            
+            
+            String indirizzo = "";
+            
+            if(cl.getCap() != null) {
+            	indirizzo += cl.getCap() + " ";
+            }
+            
+            if(cl.getCitta() != null) {
+            	indirizzo += cl.getCitta() + " ";
+            }
+            
+            if(cl.getProvincia() != null) {
+            	indirizzo += "(" + cl.getProvincia() + ")";
+            }
+            
+            cliente.addElement(new Phrase(indirizzo, fontHelvetica8));
+            
+            
+            if(cl.getCodiceFiscale() != null && cl.getCodiceFiscale().trim().length() > 0) {
+            	String codiceFiscale = "CF: " + cl.getCodiceFiscale();
+            	cliente.addElement(new Phrase(codiceFiscale, fontHelvetica8));
+            }
+            
+            if(cl.getPartitaIva() != null && cl.getPartitaIva().trim().length() > 0) {
+            	String partitaIva = "P.IVA: " + cl.getPartitaIva();
+            	cliente.addElement(new Phrase(partitaIva, fontHelvetica8));
+            }
+                        
+            cliente.setBorder(1);
+            header.addCell(cliente);
 
             // write content
             header.writeSelectedRows(0, -1, 34, 803, writer.getDirectContent());

@@ -23,10 +23,12 @@ import javax.swing.table.DefaultTableModel;
 
 import it.exp75.gestionefatture.business.ClientiBusiness;
 import it.exp75.gestionefatture.business.FattureBusiness;
+import it.exp75.gestionefatture.business.IntestazioneBusiness;
 import it.exp75.gestionefatture.business.PrestazioniBusiness;
 import it.exp75.gestionefatture.model.Cliente;
-import it.exp75.gestionefatture.model.DatiFattura;
+import it.exp75.gestionefatture.model.DatiStampaFattura;
 import it.exp75.gestionefatture.model.Fattura;
+import it.exp75.gestionefatture.model.Intestazione;
 import it.exp75.gestionefatture.model.Misure;
 import it.exp75.gestionefatture.model.Pagamento;
 import it.exp75.gestionefatture.model.Prestazione;
@@ -55,6 +57,7 @@ public class FatturaView extends JFrame {
 	private List<Prestazione> prestazioni;
 	private Pagamento pagamento;
 	private List<Misure> misure;
+	private Intestazione intest;
 	
 	/**
 	 * Launch the application.
@@ -156,7 +159,14 @@ public class FatturaView extends JFrame {
 		JButton btnPrintPdf = new JButton("Stampa PDF");
 		btnPrintPdf.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				DatiFattura df = new DatiFattura(cliente, ft, prestazioni, pagamento, misure);
+				
+	            try {
+					intest = IntestazioneBusiness.getInstance().getIntestazione();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				DatiStampaFattura df = new DatiStampaFattura(intest, cliente, ft, prestazioni, pagamento, misure);
 				CreaPdf.creaFatturaPdf(df);
 			}
 		});

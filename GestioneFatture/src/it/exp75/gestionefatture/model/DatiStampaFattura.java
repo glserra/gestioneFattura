@@ -2,17 +2,19 @@ package it.exp75.gestionefatture.model;
 
 import java.util.List;
 
-public class DatiFattura {
+public class DatiStampaFattura {
 
+	private Intestazione intestazione;
 	private Cliente cliente;
 	private Fattura fattura;
 	private List<Prestazione> listaPrestazioni;
 	private Pagamento pagamento;
 	private List<Misure> misure;
 	
-	public DatiFattura(it.exp75.gestionefatture.model.Cliente cliente, Fattura fattura,
+	public DatiStampaFattura(Intestazione intestazione, Cliente cliente, Fattura fattura,
 			List<Prestazione> listaPrestazioni, Pagamento pagamento, List<Misure> misure) {
 		super();
+		this.intestazione = intestazione;
 		this.cliente = cliente;
 		this.fattura = fattura;
 		this.listaPrestazioni = listaPrestazioni;
@@ -20,6 +22,14 @@ public class DatiFattura {
 		this.misure = misure;
 	}
 	
+	public Intestazione getIntestazione() {
+		return intestazione;
+	}
+
+	public void setIntestazione(Intestazione intestazione) {
+		this.intestazione = intestazione;
+	}
+
 	public Cliente getCliente() {
 		return cliente;
 	}
