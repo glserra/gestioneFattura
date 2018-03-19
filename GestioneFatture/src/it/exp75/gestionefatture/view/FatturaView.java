@@ -166,7 +166,14 @@ public class FatturaView extends JFrame {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+	            
+	            
 				DatiStampaFattura df = new DatiStampaFattura(intest, cliente, ft, prestazioni, pagamento, misure);
+				
+				df.setImponibile(txtImponibile.getText());
+				df.setTotIva(txtIva.getText());
+				df.setTotFattura(txtTotale.getText());
+				
 				CreaPdf.creaFatturaPdf(df);
 			}
 		});

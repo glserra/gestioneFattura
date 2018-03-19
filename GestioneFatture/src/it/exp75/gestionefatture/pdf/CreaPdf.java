@@ -31,7 +31,7 @@ public class CreaPdf {
 			String titolo = TITLE + numFattFormat + "_" + Utility.formatDateToString(df.getFattura().getData_fattura(), "ddMMyyyy");
 			document = new Document(PageSize.A4);            
 			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(new File(titolo + PDF_EXTENSION)));
-			HeaderFooterPageEvent event = new HeaderFooterPageEvent(df.getIntestazione(), df.getCliente());
+			HeaderFooterPageEvent event = new HeaderFooterPageEvent(df);
 //			event.setHeader("Test Report");
 			writer.setPageEvent(event);
 			document.setMargins(20, 20, 200, 200);

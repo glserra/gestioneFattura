@@ -10,7 +10,34 @@ public class DatiStampaFattura {
 	private List<Prestazione> listaPrestazioni;
 	private Pagamento pagamento;
 	private List<Misure> misure;
+	private String imponibile;
+	private String totIva;
+	private String totFattura;
 	
+	public String getImponibile() {
+		return imponibile;
+	}
+
+	public void setImponibile(String imponibile) {
+		this.imponibile = imponibile;
+	}
+
+	public String getTotIva() {
+		return totIva;
+	}
+
+	public void setTotIva(String totIva) {
+		this.totIva = totIva;
+	}
+
+	public String getTotFattura() {
+		return totFattura;
+	}
+
+	public void setTotFattura(String totFattura) {
+		this.totFattura = totFattura;
+	}
+
 	public DatiStampaFattura(Intestazione intestazione, Cliente cliente, Fattura fattura,
 			List<Prestazione> listaPrestazioni, Pagamento pagamento, List<Misure> misure) {
 		super();

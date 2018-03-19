@@ -22,7 +22,9 @@ import com.itextpdf.text.pdf.PdfTemplate;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import it.exp75.gestionefatture.model.Cliente;
+import it.exp75.gestionefatture.model.DatiStampaFattura;
 import it.exp75.gestionefatture.model.Intestazione;
+import it.exp75.gestionefatture.resources.Log;
 
 public class HeaderFooterPageEvent extends PdfPageEventHelper {
 
@@ -30,11 +32,17 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
     private Image total;
     private Cliente cl;
     private Intestazione intest;
-
-    public HeaderFooterPageEvent(Intestazione intest, Cliente cliente) {
+	private String imponibile;
+	private String totIva;
+	private String totFattura;
+	
+    public HeaderFooterPageEvent(DatiStampaFattura df) {
 		super();
-		this.intest = intest;
-		this.cl = cliente;
+		this.intest = df.getIntestazione();
+		this.cl = df.getCliente();
+		this.imponibile = df.getImponibile();
+		this.totIva = df.getTotIva();
+		this.totFattura = df.getTotFattura();
 	}
 
 	public void onOpenDocument(PdfWriter writer, Document document) {
@@ -140,33 +148,74 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
     }
 
     private void addFooter(PdfWriter writer){
-        PdfPTable footer = new PdfPTable(3);
+        
+    	Log.getLogger().info(new Integer(writer.getCurrentPageNumber()).toString());
+    	Log.getLogger().info(new Integer(writer.getPageNumber()).toString());
+
+    	PdfPTable footer = new PdfPTable(3);
         try {
             // set defaults
-            footer.setWidths(new int[]{24, 2, 1});
+            footer.setWidths(new int[]{40, 24, 40});
             footer.setTotalWidth(527);
             footer.setLockedWidth(true);
-            footer.getDefaultCell().setFixedHeight(40);
+            footer.getDefaultCell().setFixedHeight(30);
+
             footer.getDefaultCell().setBorder(Rectangle.TOP);
             footer.getDefaultCell().setBorderColor(BaseColor.LIGHT_GRAY);
 
             // add copyright
-            footer.addCell(new Phrase("\u00A9 Memorynotfound.com", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD)));
+            footer.addCell("");
+            footer.addCell(new Phrase("Imponibile:", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD)));
+            footer.addCell(new Phrase(imponibile, new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD)));
+            footer.completeRow();
+            
+            footer.addCell("");
+            footer.addCell(new Phrase("IVA:", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD)));
+            footer.addCell(new Phrase(totIva, new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD)));
+            footer.completeRow();
+            
+            footer.addCell("");
+            footer.addCell(new Phrase("Totale:", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD)));
+            footer.addCell(new Phrase(totFattura, new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD)));
+            footer.completeRow();
+
+
+            // write page
+            PdfContentByte canvas = writer.getDirectContent();
+            canvas.beginMarkedContentSequence(PdfName.ARTIFACT);
+            footer.writeSelectedRows(0, -1, 34, 200, canvas);
+            canvas.endMarkedContentSequence();
+        } catch(DocumentException de) {
+            throw new ExceptionConverter(de);
+        }
+    	
+    	PdfPTable footer2 = new PdfPTable(3);
+        try {
+            // set defaults
+            footer2.setWidths(new int[]{24, 2, 1});
+            footer2.setTotalWidth(527);
+            footer2.setLockedWidth(true);
+            footer2.getDefaultCell().setFixedHeight(40);
+            footer2.getDefaultCell().setBorder(Rectangle.TOP);
+            footer2.getDefaultCell().setBorderColor(BaseColor.LIGHT_GRAY);
+
+            // add copyright
+            footer2.addCell(new Phrase("\u00A9 Memorynotfound.com", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD)));
 
             // add current page count
-            footer.getDefaultCell().setHorizontalAlignment(Element.ALIGN_RIGHT);
-            footer.addCell(new Phrase(String.format("Page %d of", writer.getPageNumber()), new Font(Font.FontFamily.HELVETICA, 8)));
+            footer2.getDefaultCell().setHorizontalAlignment(Element.ALIGN_RIGHT);
+            footer2.addCell(new Phrase(String.format("Page %d of", writer.getPageNumber()), new Font(Font.FontFamily.HELVETICA, 8)));
 
             // add placeholder for total page count
             PdfPCell totalPageCount = new PdfPCell(total);
             totalPageCount.setBorder(Rectangle.TOP);
             totalPageCount.setBorderColor(BaseColor.LIGHT_GRAY);
-            footer.addCell(totalPageCount);
+            footer2.addCell(totalPageCount);
 
             // write page
             PdfContentByte canvas = writer.getDirectContent();
             canvas.beginMarkedContentSequence(PdfName.ARTIFACT);
-            footer.writeSelectedRows(0, -1, 34, 50, canvas);
+            footer2.writeSelectedRows(0, -1, 34, 50, canvas);
             canvas.endMarkedContentSequence();
         } catch(DocumentException de) {
             throw new ExceptionConverter(de);
