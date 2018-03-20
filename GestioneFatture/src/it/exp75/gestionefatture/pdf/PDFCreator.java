@@ -32,6 +32,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import it.exp75.gestionefatture.model.Cliente;
+import it.exp75.gestionefatture.model.DatiStampaFattura;
 import it.exp75.gestionefatture.model.Prestazione;
 import it.exp75.gestionefatture.resources.Log;
 
@@ -66,7 +67,8 @@ public class PDFCreator {
 	public static void addPrestazioni(Document document, List<Prestazione> prestaz) throws DocumentException {
 
 		Paragraph paragraph = new Paragraph();
-		paragraph.setSpacingAfter(150);
+//		paragraph.setSpacingAfter(20);
+//		paragraph.setSpacingBefore(100);
 		paragraph.setFont(NORMAL_FONT);
 		createPrestazioniTable(paragraph, prestaz);
 		document.add(paragraph);
@@ -75,8 +77,6 @@ public class PDFCreator {
 		
 	
 	private static void createPrestazioniTable(Paragraph paragraph, List<Prestazione> prestazioni) throws DocumentException {
-
-		addEmptyLine(paragraph, 4);
 		
 		PdfPTable table = new PdfPTable(6);
 //		table.setWidthPercentage(100);
@@ -116,6 +116,45 @@ public class PDFCreator {
 		paragraph.add(table);
 
 	}
+	
+	public static void addTotali(Document document, DatiStampaFattura df) throws DocumentException {
+
+		Paragraph paragraph = new Paragraph();
+		addEmptyLine(paragraph, 2);
+		paragraph.setFont(NORMAL_FONT);
+		createTotaliTable(paragraph, df);
+		document.add(paragraph);
+
+	}
+	
+	private static void createTotaliTable(Paragraph paragraph, DatiStampaFattura df) throws DocumentException {
+		
+		PdfPTable table = new PdfPTable(2);
+//		table.setWidthPercentage(100);
+		table.setTotalWidth(550);
+		table.setLockedWidth(true);
+		int[] mis = {300,100};
+		table.setWidths(mis);
+
+		if(null == df){
+			paragraph.add(new Chunk("No data to display."));
+			return;
+		}
+
+		table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_RIGHT);
+		addToTable(table, "Imponibile");
+		addToTable(table, df.getImponibile());
+		addToTable(table, "Iva");
+		addToTable(table, df.getTotIva());
+		addToTable(table, "Totale");
+		addToTable(table, df.getTotFattura());
+
+		table.setSplitLate(true);
+		
+		paragraph.add(table);
+
+	}
+
 	
 	/*
 	 *  old  

@@ -68,7 +68,6 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
             header.setWidths(new int[]{2, 24});
             header.setTotalWidth(527);
             header.setLockedWidth(true);
-            header.getDefaultCell().setFixedHeight(70);
             header.getDefaultCell().setBorder(0);
 //            header.getDefaultCell().setBorder(Rectangle.BOTTOM);
 //            header.getDefaultCell().setBorderColor(BaseColor.LIGHT_GRAY);
@@ -102,6 +101,7 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
             cliente.setIndent(150);
             cliente.setPaddingTop(20);
             cliente.setPaddingLeft(250);
+            
             cliente.addElement(new Phrase( cl.getRagioneSociale(), new Font(Font.FontFamily.HELVETICA, 12)));
             cliente.addElement(new Phrase(cl.getIndirizzo(), fontHelvetica8));
             
@@ -133,7 +133,7 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
             	cliente.addElement(new Phrase(partitaIva, fontHelvetica8));
             }
                         
-            cliente.setBorder(1);
+            cliente.setBorder(Rectangle.BOTTOM);
             header.addCell(cliente);
 
             // write content
@@ -149,45 +149,6 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
 
     private void addFooter(PdfWriter writer){
         
-    	Log.getLogger().info(new Integer(writer.getCurrentPageNumber()).toString());
-    	Log.getLogger().info(new Integer(writer.getPageNumber()).toString());
-
-    	PdfPTable footer = new PdfPTable(3);
-        try {
-            // set defaults
-            footer.setWidths(new int[]{40, 24, 40});
-            footer.setTotalWidth(527);
-            footer.setLockedWidth(true);
-            footer.getDefaultCell().setFixedHeight(30);
-
-            footer.getDefaultCell().setBorder(Rectangle.TOP);
-            footer.getDefaultCell().setBorderColor(BaseColor.LIGHT_GRAY);
-
-            // add copyright
-            footer.addCell("");
-            footer.addCell(new Phrase("Imponibile:", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD)));
-            footer.addCell(new Phrase(imponibile, new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD)));
-            footer.completeRow();
-            
-            footer.addCell("");
-            footer.addCell(new Phrase("IVA:", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD)));
-            footer.addCell(new Phrase(totIva, new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD)));
-            footer.completeRow();
-            
-            footer.addCell("");
-            footer.addCell(new Phrase("Totale:", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD)));
-            footer.addCell(new Phrase(totFattura, new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD)));
-            footer.completeRow();
-
-
-            // write page
-            PdfContentByte canvas = writer.getDirectContent();
-            canvas.beginMarkedContentSequence(PdfName.ARTIFACT);
-            footer.writeSelectedRows(0, -1, 34, 200, canvas);
-            canvas.endMarkedContentSequence();
-        } catch(DocumentException de) {
-            throw new ExceptionConverter(de);
-        }
     	
     	PdfPTable footer2 = new PdfPTable(3);
         try {
@@ -226,7 +187,7 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
         int totalLength = String.valueOf(writer.getPageNumber()).length();
         int totalWidth = totalLength * 5;
         ColumnText.showTextAligned(t, Element.ALIGN_RIGHT,
-                new Phrase(String.valueOf(writer.getPageNumber()), new Font(Font.FontFamily.HELVETICA, 8)),
+                new Phrase(String.valueOf(writer.getPageNumber()-1), new Font(Font.FontFamily.HELVETICA, 8)),
                 totalWidth, 6, 0);
     }
 }

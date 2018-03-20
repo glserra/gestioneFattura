@@ -34,7 +34,7 @@ public class CreaPdf {
 			HeaderFooterPageEvent event = new HeaderFooterPageEvent(df);
 //			event.setHeader("Test Report");
 			writer.setPageEvent(event);
-			document.setMargins(20, 20, 200, 200);
+			document.setMargins(20, 20, 250, 200);
 			document.open();
 			PDFCreator.addMetaData(document, titolo);
 //			PDFCreator.addTitlePage(document, TITLE);
@@ -42,6 +42,7 @@ public class CreaPdf {
 //			PDFCreator.addAzienda(document);
 //			PDFCreator.addCliente(document, df.getCliente());
 			PDFCreator.addPrestazioni(document, df.getListaPrestazioni());
+			PDFCreator.addTotali(document, df);
 //			PDFCreator.addContent(document, dataObjList);
 			
 //			document.newPage();
