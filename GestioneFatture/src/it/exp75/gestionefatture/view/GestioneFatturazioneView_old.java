@@ -1,11 +1,9 @@
 package it.exp75.gestionefatture.view;
 
-import java.awt.Button;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Constructor;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Vector;
@@ -35,33 +33,30 @@ import javax.swing.ImageIcon;
 import javax.swing.JToolBar;
 import javax.swing.border.Border;
 import javax.swing.JMenuBar;
-import java.awt.Dimension;
 
-public class GestioneFatturazioneView {
+public class GestioneFatturazioneView_old {
 
 	private JFrame frame;
-
+	
 	private JTable tblClienti;
 	private JTable tblFatture;
 
+	private JTabbedPane tabbedPane;
+	
 	private JPanel pnlHome;
 	private JPanel pnlFatture;
 	private JPanel pnlClienti;
-
+	
 	private JScrollPane scrollPane;
 	private JScrollPane scrollPane_1;
-
+	
 	private JButton btnFatture;
 	private JButton btnNewCliente;
 	private JButton btnNuovo;
 	private JButton btnNuova;
 	private JButton btnVedi;
 	private JButton btnClienti;
-	private JButton btnHeaderHome;
-	private JButton btnHeaderFatture;
-	private JButton btnHeaderClienti;
-	private JToolBar toolBar;
-
+	
 	/**
 	 * Launch the application.
 	 */
@@ -69,7 +64,7 @@ public class GestioneFatturazioneView {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					GestioneFatturazioneView window = new GestioneFatturazioneView();
+					GestioneFatturazioneView_old window = new GestioneFatturazioneView_old();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -81,8 +76,7 @@ public class GestioneFatturazioneView {
 	/**
 	 * Create the application.
 	 */
-	public GestioneFatturazioneView() {
-		
+	public GestioneFatturazioneView_old() {
 		initialize();
 	}
 
@@ -90,79 +84,131 @@ public class GestioneFatturazioneView {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-
+		
 		Log log = new Log();
 		log.setup();
-
+		
 		frame = new JFrame();
 		frame.setBounds(100, 100, 725, 490);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-
+		
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setBounds(10, 50, 689, 390);
+		frame.getContentPane().add(tabbedPane);
+		
 		pnlHome = new JPanel();
-		pnlHome.setBounds(0, 53, 709, 399);
-		frame.getContentPane().add(pnlHome);
+		tabbedPane.addTab("New tab", null, pnlHome, null);
 		pnlHome.setLayout(null);
-
+		
 		btnFatture = new JButton("Fatture");
-
-		btnFatture.setIcon(new ImageIcon(GestioneFatturazioneView.class.getResource("/it/exp75/gestionefatture/resources/images/Documents.png")));
+		
+		btnFatture.setIcon(new ImageIcon(GestioneFatturazioneView_old.class.getResource("/it/exp75/gestionefatture/resources/images/Documents.png")));
 		btnFatture.setBounds(32, 55, 211, 87);
 		btnFatture.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		btnFatture.setBackground(Color.white);
 		pnlHome.add(btnFatture);
-
+		
 		btnClienti = new JButton("Clienti");
-		btnClienti.setIcon(new ImageIcon(GestioneFatturazioneView.class.getResource("/it/exp75/gestionefatture/resources/images/Users.png")));
+		btnClienti.setIcon(new ImageIcon(GestioneFatturazioneView_old.class.getResource("/it/exp75/gestionefatture/resources/images/Users.png")));
 		btnClienti.setBounds(253, 55, 211, 87);
 		btnClienti.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		btnClienti.setBackground(Color.white);
 		pnlHome.add(btnClienti);
+		
+		pnlClienti = new JPanel();
+		tabbedPane.addTab("Clienti", null, pnlClienti, null);
+		pnlClienti.setLayout(null);
+		
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(27, 49, 635, 291);
+		pnlClienti.add(scrollPane);
+		
+		tblClienti = new JTable();
+		tblClienti.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null, null},
+			},
+			new String[] {
+				"id", "Ragione Sociale", "Partita IVA", "Codice Fiscale", "Indirizzo"
+			}
+		));
+		tblClienti.getColumnModel().getColumn(1).setPreferredWidth(246);
+		tblClienti.getColumnModel().getColumn(2).setPreferredWidth(108);
+		tblClienti.getColumnModel().getColumn(3).setPreferredWidth(115);
+		scrollPane.setViewportView(tblClienti);
+		
+		btnNewCliente = new JButton("Modifica");
+		btnNewCliente.setBounds(126, 15, 89, 23);
+		pnlClienti.add(btnNewCliente);
+		
+		btnNuovo = new JButton("Nuovo");
+		btnNuovo.setBounds(228, 15, 89, 23);
+		pnlClienti.add(btnNuovo);
+		
+		pnlFatture = new JPanel();
+		tabbedPane.addTab("fatture", null, pnlFatture, null);
+		pnlFatture.setLayout(null);
+		
+		scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(10, 55, 664, 296);
+		pnlFatture.add(scrollPane_1);
+		
+		tblFatture = new JTable();
+		tblFatture.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null, null},
+			},
+			new String[] {
+				"id", "Numero", "Ragione Sociale", "Data", "Pagamento"
+			}
+		));
+		tblFatture.getColumnModel().getColumn(0).setWidth(0);
+		tblFatture.getColumnModel().getColumn(0).setMinWidth(0);
+		tblFatture.getColumnModel().getColumn(0).setMaxWidth(0); 
+		tblFatture.getColumnModel().getColumn(1).setPreferredWidth(63);
+		tblFatture.getColumnModel().getColumn(2).setPreferredWidth(266);
+		tblFatture.getColumnModel().getColumn(3).setPreferredWidth(104);
+		tblFatture.getColumnModel().getColumn(4).setPreferredWidth(165);
+		scrollPane_1.setViewportView(tblFatture);
+		
+		btnNuova = new JButton("Nuova");
+		btnNuova.setBounds(109, 21, 89, 23);
+		pnlFatture.add(btnNuova);
+		
+		btnVedi = new JButton("Vedi");
+		btnVedi.setBounds(208, 21, 89, 23);
+		pnlFatture.add(btnVedi);
+
+		
+		/*
+		 * Gestione Action
+		 * 
+		 */
+		
+		
+		
+		ChangeListener changeListener = new ChangeListener() {
+			public void stateChanged(ChangeEvent changeEvent) {
+				JTabbedPane sourceTabbedPane = (JTabbedPane) changeEvent.getSource();
+				int index = sourceTabbedPane.getSelectedIndex();
+				selMetodoPerTab(index);
+			}
+		};
+		tabbedPane.addChangeListener(changeListener);
 
 
 		btnClienti.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
+				tabbedPane.setSelectedIndex(1);
 			}
 		});
 
 		btnFatture.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
+				tabbedPane.setSelectedIndex(2);
 			}
 		});
-
-		pnlClienti = new JPanel();
-		pnlClienti.setVisible(false);
-		pnlClienti.setBounds(0, 53, 709, 399);
-		frame.getContentPane().add(pnlClienti);
-		pnlClienti.setLayout(null);
-
-		scrollPane = new JScrollPane();
-		scrollPane.setBounds(27, 49, 635, 291);
-		pnlClienti.add(scrollPane);
-
-		tblClienti = new JTable();
-		tblClienti.setModel(new DefaultTableModel(
-				new Object[][] {
-					{null, null, null, null, null},
-				},
-				new String[] {
-						"id", "Ragione Sociale", "Partita IVA", "Codice Fiscale", "Indirizzo"
-				}
-				));
-		tblClienti.getColumnModel().getColumn(1).setPreferredWidth(246);
-		tblClienti.getColumnModel().getColumn(2).setPreferredWidth(108);
-		tblClienti.getColumnModel().getColumn(3).setPreferredWidth(115);
-		scrollPane.setViewportView(tblClienti);
-
-		btnNewCliente = new JButton("Modifica");
-		btnNewCliente.setBounds(126, 15, 89, 23);
-		pnlClienti.add(btnNewCliente);
-
-		btnNuovo = new JButton("Nuovo");
-		btnNuovo.setBounds(228, 15, 89, 23);
-		pnlClienti.add(btnNuovo);
 
 		btnNewCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -183,99 +229,18 @@ public class GestioneFatturazioneView {
 			}
 		});
 
+		btnNuova.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FatturaView fv = new FatturaView();
+				fv.setVisible(true);
+			}
+		});
+
 		btnNuovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ClienteView nwc = new ClienteView();
 				nwc.setVisible(true);
 
-			}
-		});
-
-		pnlFatture = new JPanel();
-		pnlFatture.setVisible(false);
-		pnlFatture.setBounds(0, 53, 709, 399);
-		frame.getContentPane().add(pnlFatture);
-		pnlFatture.setLayout(null);
-
-		scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(10, 55, 664, 296);
-		pnlFatture.add(scrollPane_1);
-
-		tblFatture = new JTable();
-		tblFatture.setModel(new DefaultTableModel(
-				new Object[][] {
-					{null, null, null, null, null},
-				},
-				new String[] {
-						"id", "Numero", "Ragione Sociale", "Data", "Pagamento"
-				}
-				));
-		tblFatture.getColumnModel().getColumn(0).setWidth(0);
-		tblFatture.getColumnModel().getColumn(0).setMinWidth(0);
-		tblFatture.getColumnModel().getColumn(0).setMaxWidth(0); 
-		tblFatture.getColumnModel().getColumn(1).setPreferredWidth(63);
-		tblFatture.getColumnModel().getColumn(2).setPreferredWidth(266);
-		tblFatture.getColumnModel().getColumn(3).setPreferredWidth(104);
-		tblFatture.getColumnModel().getColumn(4).setPreferredWidth(165);
-		scrollPane_1.setViewportView(tblFatture);
-
-		btnNuova = new JButton("Nuova");
-		btnNuova.setBounds(109, 21, 89, 23);
-		pnlFatture.add(btnNuova);
-
-		btnVedi = new JButton("Vedi");
-		btnVedi.setBounds(208, 21, 89, 23);
-		pnlFatture.add(btnVedi);
-		
-		toolBar = new JToolBar();
-		toolBar.setBorderPainted(false);
-		toolBar.setFloatable(false);
-		toolBar.setBounds(0, 0, 709, 42);
-		frame.getContentPane().add(toolBar);
-
-		btnHeaderHome = new ButtonTB("");
-		btnHeaderHome.setSize(new Dimension(32, 32));
-		btnHeaderHome.setToolTipText("Home");
-		toolBar.add(btnHeaderHome);
-		btnHeaderHome.setIcon(new ImageIcon(GestioneFatturazioneView.class.getResource("/it/exp75/gestionefatture/resources/images/Universal Binary.png")));
-
-		btnHeaderFatture = new ButtonTB("");
-		btnHeaderFatture.setToolTipText("Fatture");
-		toolBar.add(btnHeaderFatture);
-		btnHeaderFatture.setIcon(new ImageIcon(GestioneFatturazioneView.class.getResource("/it/exp75/gestionefatture/resources/images/Documents.png")));
-
-		btnHeaderClienti = new ButtonTB("");
-		btnHeaderClienti.setToolTipText("Clienti");
-		toolBar.add(btnHeaderClienti);
-		btnHeaderClienti.setIcon(new ImageIcon(GestioneFatturazioneView.class.getResource("/it/exp75/gestionefatture/resources/images/Users.png")));
-		btnHeaderClienti.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				pnlHome.setVisible(false);
-				pnlClienti.setVisible(true);
-				pnlFatture.setVisible(false);
-				readClienti();
-			}
-		});
-		btnHeaderFatture.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				pnlHome.setVisible(false);
-				pnlClienti.setVisible(false);
-				pnlFatture.setVisible(true);
-				readFatture();
-			}
-		});
-		btnHeaderHome.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				pnlHome.setVisible(true);
-				pnlClienti.setVisible(false);
-				pnlFatture.setVisible(false);
-			}
-		});
-
-		btnNuova.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				FatturaView fv = new FatturaView();
-				fv.setVisible(true);
 			}
 		});
 
@@ -294,15 +259,31 @@ public class GestioneFatturazioneView {
 		});
 
 
+		
 	}
-
-
+	
+	
 	/*
 	 * Metodi
 	 */
+	
+	private void selMetodoPerTab(int indexTabSel) {
+		
+		switch (indexTabSel) {
+		case 1:
+			readClienti();
+			break;
 
+		case 2:
+			readFatture();
+			break;
 
-
+		default:
+			break;
+		} 
+			
+	}
+	
 	private void readFatture() {
 		DefaultTableModel dtm = (DefaultTableModel) tblFatture.getModel();
 
@@ -311,24 +292,24 @@ public class GestioneFatturazioneView {
 		}
 
 		Cliente cl = null;
-
+		
 		List<Fattura> fattura;
 		try {
 			fattura = FattureBusiness.getInstance().listaFatture();
 			for(Fattura f: fattura) {
 				Vector rowData = new Vector();
-
+				
 				rowData.add(f.getId_fattura());
 				rowData.add(f.getNum_fattura());
-
+				
 				cl = ClientiBusiness.getInstance().cliente(f.getId_cliente());
 				rowData.add(cl.getRagioneSociale());
-
+				
 				rowData.add(Utility.formatDateToString(f.getData_fattura(), "dd/MM/yyyy"));
-
+				
 				String pagamento = PagamentiBusiness.getInstance().pagamento(f.getPagamento());
 				rowData.add(pagamento);
-
+				
 				dtm.addRow(rowData);
 			}
 		} catch (SQLException e) {
@@ -336,14 +317,14 @@ public class GestioneFatturazioneView {
 			e.printStackTrace();
 		}
 	}
-
+	
 	private void readClienti() {
 		DefaultTableModel dtm = (DefaultTableModel) tblClienti.getModel();
-
+		
 		while(dtm.getRowCount() > 0) {
 			dtm.removeRow(0);
 		}
-
+		
 		List<Cliente> cliente;
 		try {
 			cliente = ClientiBusiness.getInstance().listaClienti();
@@ -360,11 +341,10 @@ public class GestioneFatturazioneView {
 			e.printStackTrace();
 		}
 	}
-
-
+	
+	
 	private void showMessageErroreRecuperoDati(String txt, Exception e) {
 		JOptionPane.showMessageDialog(null, IConstanti.ERRORE_RECUPERO_DATI + txt);
 		Log.getLogger().info(txt + ": " + e);
 	}
 }
-
