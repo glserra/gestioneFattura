@@ -39,4 +39,14 @@ public interface IConstanti {
 	 * Messaggi errore
 	 */
 	static final String ERRORE_RECUPERO_DATI = "Si è verificato un errore nel recupero dati: ";
+	
+	/*
+	 * NOme oggetti
+	 */
+	static final String PANEL_FATTURE = "pnlFatture";
+	static final String PANEL_CLIENTI = "pnlClienti";
+	static final String PANEL_HOME = "pnlHome";
+	
+	
+	
 }
