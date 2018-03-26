@@ -5,16 +5,16 @@ public interface IConstanti {
 	/*
 	 * Stringhe per errori controllo Codice Fiscale
 	 */
-	static final String CF_ERRORE_LUNGHEZZA = "La lunghezza del codice fiscale non Ã¨ corretta:\nil codice fiscale dovrebbe essere lungo esattamente 16 caratteri.";
+	static final String CF_ERRORE_LUNGHEZZA = "La lunghezza del codice fiscale non è corretta: \nil codice fiscale dovrebbe essere lungo esattamente 16 caratteri.";
 	static final String CF_ERRORE_CARATTERI_NON_VALIDI = "Il codice fiscale contiene dei caratteri non validi:\ni soli caratteri validi sono le lettere e le cifre.";
-	static final String CF_ERRORE_CODICE_CONTROLLO = "Il codice fiscale non Ã¨ corretto:\nil codice di controllo non corrisponde.";
+	static final String CF_ERRORE_CODICE_CONTROLLO = "Il codice fiscale non è corretto: \nil codice di controllo non corrisponde.";
 		
 	/*
 	 * Stringhe per errori controllo Partita IVA
 	 */
-	static final String PIVA_ERRORE_LUNGHEZZA =  "La lunghezza della partita IVA non Ã¨ corretta:\nla partita IVA dovrebbe essere lunga esattamente 11 caratteri.";
+	static final String PIVA_ERRORE_LUNGHEZZA =  "La lunghezza della partita IVA non è corretta: \nla partita IVA dovrebbe essere lunga esattamente 11 caratteri.";
 	static final String PIVA_ERRORE_CARATTERI_NON_VALIDI = "La partita IVA contiene dei caratteri non ammessi:\n la partita IVA dovrebbe contenere solo cifre.";
-	static final String PIVA_ERRORE_CODICE_CONTROLLO = "La partita IVA non Ã¨ valida:\nil codice di controllo non corrisponde.";
+	static final String PIVA_ERRORE_CODICE_CONTROLLO = "La partita IVA non è valida: \nil codice di controllo non corrisponde.";
 
 	/*
 	 * campi panel Cliente 

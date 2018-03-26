@@ -74,17 +74,17 @@ public class ClienteView extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblRagioneSociale = new JLabel(IConstanti.RAGIONE_SOCIALE);
-		lblRagioneSociale.setBounds(34, 34, 113, 14);
+		lblRagioneSociale.setBounds(31, 110, 113, 14);
 		contentPane.add(lblRagioneSociale);
 		
 		txtRagSociale = new JTextField();
-		txtRagSociale.setBounds(159, 31, 406, 20);
+		txtRagSociale.setBounds(156, 107, 406, 20);
 		contentPane.add(txtRagSociale);
 		txtRagSociale.setColumns(10);
 		
 		JLabel icnErrorPI = new JLabel("icnLabel");
 		icnErrorPI.setIcon(new ImageIcon(ClienteView.class.getResource("../resources/images/s_s_nono.gif")));
-		icnErrorPI.setBounds(320, 64, 19, 20);
+		icnErrorPI.setBounds(317, 140, 19, 20);
 		icnErrorPI.setVisible(false);
 		contentPane.add(icnErrorPI);
 		
@@ -103,13 +103,13 @@ public class ClienteView extends JFrame {
 			}
 		});
 
-		txtPartitaIva.setBounds(159, 63, 151, 20);
+		txtPartitaIva.setBounds(156, 139, 151, 20);
 		contentPane.add(txtPartitaIva);
 		txtPartitaIva.setColumns(10);
 
 		JLabel icnErrorCF = new JLabel("icnLabel2");
 		icnErrorCF.setIcon(new ImageIcon(ClienteView.class.getResource("../resources/images/s_s_nono.gif")));
-		icnErrorCF.setBounds(320, 93, 19, 20);
+		icnErrorCF.setBounds(317, 169, 19, 20);
 		icnErrorCF.setVisible(false);
 		contentPane.add(icnErrorCF);
 		
@@ -128,30 +128,32 @@ public class ClienteView extends JFrame {
 			}
 		});
 
-		txtCodFiscale.setBounds(159, 93, 151, 20);
+		txtCodFiscale.setBounds(156, 169, 151, 20);
 		contentPane.add(txtCodFiscale);
 		txtCodFiscale.setColumns(10);
 		
 		JLabel lblPartitaIva = new JLabel(IConstanti.PARTITA_IVA);
-		lblPartitaIva.setBounds(34, 67, 82, 14);
+		lblPartitaIva.setBounds(31, 143, 82, 14);
 		contentPane.add(lblPartitaIva);
 		
 		JLabel lblCodiceFiscale = new JLabel(IConstanti.CODICE_FISCALE);
-		lblCodiceFiscale.setBounds(34, 96, 113, 14);
+		lblCodiceFiscale.setBounds(31, 172, 113, 14);
 		contentPane.add(lblCodiceFiscale);
 		
-		JButton btnAnnulla = new JButton("Annulla");
-		btnAnnulla.setIcon(new ImageIcon(ClienteView.class.getResource("/javax/swing/plaf/metal/icons/ocean/close.gif")));
+		JButton btnAnnulla = new JButton("");
+		btnAnnulla.setToolTipText("Annulla");
+		btnAnnulla.setIcon(new ImageIcon(ClienteView.class.getResource("/it/exp75/gestionefatture/resources/images/icons8-cancel-30.png")));
 		btnAnnulla.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
 			}
 		});
-		btnAnnulla.setBounds(484, 371, 103, 23);
+		btnAnnulla.setBounds(94, 11, 60, 52);
 		contentPane.add(btnAnnulla);
 		
-		btnSalva = new JButton("Salva");
-		btnSalva.setIcon(new ImageIcon(ClienteView.class.getResource("/com/sun/java/swing/plaf/windows/icons/FloppyDrive.gif")));
+		btnSalva = new JButton("");
+		btnSalva.setToolTipText("Salva");
+		btnSalva.setIcon(new ImageIcon(ClienteView.class.getResource("/it/exp75/gestionefatture/resources/images/icons8-save-30.png")));
 		btnSalva.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -171,13 +173,13 @@ public class ClienteView extends JFrame {
 				
 				if(Utility.checkRequiredFieldEmpty(partitaIva)) {
 					error += "- " + IConstanti.PARTITA_IVA + "\n";
-				} else {
+				} else if(!Utility.ControllaPIVA(partitaIva).equals("")){
 					error += "- " + Utility.ControllaPIVA(partitaIva).replace("\n","") + "\n";
 				}
 				
 				if(Utility.checkRequiredFieldEmpty(codFiscale)) {
 					error += "- " + IConstanti.CODICE_FISCALE + "\n";
-				} else {
+				} else if(!Utility.ControllaCF(codFiscale).equals("")){
 					error += "- " + Utility.ControllaCF(codFiscale).replace("\n",	"") + "\n";
 				}
 				
@@ -200,7 +202,7 @@ public class ClienteView extends JFrame {
 
 				if(error.trim().length() > 0 || !error.equals("")) {
 
-					error = "I segunti compi sono obbligatori:\n" + error;
+					error = "I seguenti compi sono obbligatori:\n" + error;
 					JOptionPane.showMessageDialog(null, error);
 					
 				} else {
@@ -235,52 +237,52 @@ public class ClienteView extends JFrame {
 				}
 			}
 		});
-		btnSalva.setBounds(368, 371, 106, 23);
+		btnSalva.setBounds(30, 11, 60, 52);
 		contentPane.add(btnSalva);
 		
 		lblIndirizzo = new JLabel(IConstanti.INDIRIZZO);
-		lblIndirizzo.setBounds(34, 127, 82, 14);
+		lblIndirizzo.setBounds(31, 203, 82, 14);
 		contentPane.add(lblIndirizzo);
 		
 		txtIndirizzo = new JTextField();
-		txtIndirizzo.setBounds(159, 124, 406, 20);
+		txtIndirizzo.setBounds(156, 200, 406, 20);
 		contentPane.add(txtIndirizzo);
 		txtIndirizzo.setColumns(10);
 		
 		txtCap = new JTextField();
-		txtCap.setBounds(159, 155, 46, 20);
+		txtCap.setBounds(156, 231, 46, 20);
 		contentPane.add(txtCap);
 		txtCap.setColumns(10);
 		
 		lblCap = new JLabel(IConstanti.CAP);
-		lblCap.setBounds(34, 158, 46, 14);
+		lblCap.setBounds(31, 234, 46, 14);
 		contentPane.add(lblCap);
 		
 		txtCitta = new JTextField();
-		txtCitta.setBounds(159, 186, 238, 20);
+		txtCitta.setBounds(156, 262, 238, 20);
 		contentPane.add(txtCitta);
 		txtCitta.setColumns(10);
 		
 		lblCitta = new JLabel(IConstanti.CITTA);
-		lblCitta.setBounds(34, 189, 60, 14);
+		lblCitta.setBounds(31, 265, 60, 14);
 		contentPane.add(lblCitta);
 		
 		txtProvincia = new JTextField();
-		txtProvincia.setBounds(159, 221, 27, 20);
+		txtProvincia.setBounds(156, 297, 27, 20);
 		contentPane.add(txtProvincia);
 		txtProvincia.setColumns(10);
 		
 		lblProvincia = new JLabel(IConstanti.PROVINCIA);
-		lblProvincia.setBounds(34, 224, 82, 14);
+		lblProvincia.setBounds(31, 300, 82, 14);
 		contentPane.add(lblProvincia);
 		
 		txtNote = new JTextField();
-		txtNote.setBounds(159, 256, 406, 20);
+		txtNote.setBounds(156, 332, 406, 20);
 		contentPane.add(txtNote);
 		txtNote.setColumns(10);
 		
 		lblNote = new JLabel(IConstanti.NOTE);
-		lblNote.setBounds(34, 259, 46, 14);
+		lblNote.setBounds(31, 335, 46, 14);
 		contentPane.add(lblNote);
 		
 	}
