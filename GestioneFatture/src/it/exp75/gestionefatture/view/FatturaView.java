@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -23,8 +24,10 @@ import javax.swing.table.DefaultTableModel;
 
 import it.exp75.gestionefatture.business.ClientiBusiness;
 import it.exp75.gestionefatture.business.FattureBusiness;
+import it.exp75.gestionefatture.business.IConstanti;
 import it.exp75.gestionefatture.business.IntestazioneBusiness;
 import it.exp75.gestionefatture.business.PrestazioniBusiness;
+import it.exp75.gestionefatture.business.Utility;
 import it.exp75.gestionefatture.model.Cliente;
 import it.exp75.gestionefatture.model.DatiStampaFattura;
 import it.exp75.gestionefatture.model.Fattura;
@@ -282,9 +285,11 @@ public class FatturaView extends JFrame {
 				
 			}
 			
-			txtImponibile.setText(imponibile.toString());
-			txtIva.setText(iva.toString());
-			txtTotale.setText(totale.toString());
+			BigDecimal imponibileRound = Utility.roundDecimal(imponibile,IConstanti.ROUND_VALUE);
+			BigDecimal ivaRound = Utility.roundDecimal(iva,IConstanti.ROUND_VALUE);
+			txtImponibile.setText(imponibileRound.toString());
+			txtIva.setText(ivaRound.toString());
+			txtTotale.setText((imponibileRound.add(ivaRound)).toString());
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

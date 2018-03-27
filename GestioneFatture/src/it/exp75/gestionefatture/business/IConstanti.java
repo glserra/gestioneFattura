@@ -47,6 +47,9 @@ public interface IConstanti {
 	static final String PANEL_CLIENTI = "pnlClienti";
 	static final String PANEL_HOME = "pnlHome";
 	
+	/*
+	 * varie
+	 */
 	
-	
+	static final int ROUND_VALUE = 2;
 }

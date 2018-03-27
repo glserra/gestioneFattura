@@ -1,5 +1,6 @@
 package it.exp75.gestionefatture.business;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -98,6 +99,12 @@ public class Utility {
 		newDateString = sdf.format(d);
 		
 		return newDateString;
+	}
+	
+	public static BigDecimal roundDecimal(double value, int numDec) {
+		BigDecimal a = new BigDecimal(value);
+	    return a.setScale(numDec, BigDecimal.ROUND_HALF_UP); 
+
 	}
 
 }
