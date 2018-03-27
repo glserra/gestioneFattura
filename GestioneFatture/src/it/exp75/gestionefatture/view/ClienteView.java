@@ -142,18 +142,18 @@ public class ClienteView extends JFrame {
 		
 		JButton btnAnnulla = new JButton("");
 		btnAnnulla.setToolTipText("Annulla");
-		btnAnnulla.setIcon(new ImageIcon(ClienteView.class.getResource("/it/exp75/gestionefatture/resources/images/icons8-cancel-30.png")));
+		btnAnnulla.setIcon(new ImageIcon(ClienteView.class.getResource("/it/exp75/gestionefatture/resources/images/icons8-cancel-16.png")));
 		btnAnnulla.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
 			}
 		});
-		btnAnnulla.setBounds(94, 11, 60, 52);
+		btnAnnulla.setBounds(67, 11, 33, 33);
 		contentPane.add(btnAnnulla);
 		
 		btnSalva = new JButton("");
 		btnSalva.setToolTipText("Salva");
-		btnSalva.setIcon(new ImageIcon(ClienteView.class.getResource("/it/exp75/gestionefatture/resources/images/icons8-save-30.png")));
+		btnSalva.setIcon(new ImageIcon(ClienteView.class.getResource("/it/exp75/gestionefatture/resources/images/icons8-save-16.png")));
 		btnSalva.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -237,7 +237,7 @@ public class ClienteView extends JFrame {
 				}
 			}
 		});
-		btnSalva.setBounds(30, 11, 60, 52);
+		btnSalva.setBounds(30, 11, 33, 33);
 		contentPane.add(btnSalva);
 		
 		lblIndirizzo = new JLabel(IConstanti.INDIRIZZO);

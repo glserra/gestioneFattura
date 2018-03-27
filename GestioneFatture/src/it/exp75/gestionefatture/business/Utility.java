@@ -1,9 +1,12 @@
 package it.exp75.gestionefatture.business;
 
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
+import java.util.Locale.Category;
 
 public class Utility {
 	
@@ -105,6 +108,14 @@ public class Utility {
 		BigDecimal a = new BigDecimal(value);
 	    return a.setScale(numDec, BigDecimal.ROUND_HALF_UP); 
 
+	}
+	
+	public static String euroFormat(BigDecimal value) {
+		Locale fmtLocale = Locale.getDefault(Category.FORMAT);
+		NumberFormat formatter = NumberFormat.getInstance(fmtLocale);
+		formatter.setMaximumFractionDigits(2);
+		formatter.setMinimumFractionDigits(2);
+		return formatter.format(value);
 	}
 
 }

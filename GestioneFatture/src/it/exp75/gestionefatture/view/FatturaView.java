@@ -276,7 +276,8 @@ public class FatturaView extends JFrame {
 				rowData.add(p.getQuantita());
 				rowData.add(p.getUnita_misura());
 				rowData.add(p.getIva());
-				rowData.add(p.getImporto());
+				BigDecimal importo = Utility.roundDecimal(p.getImporto(),IConstanti.ROUND_VALUE);
+				rowData.add(Utility.euroFormat(importo));
 				dtm.addRow(rowData);
 				
 				imponibile += p.getQuantita()*p.getImporto();
@@ -287,9 +288,9 @@ public class FatturaView extends JFrame {
 			
 			BigDecimal imponibileRound = Utility.roundDecimal(imponibile,IConstanti.ROUND_VALUE);
 			BigDecimal ivaRound = Utility.roundDecimal(iva,IConstanti.ROUND_VALUE);
-			txtImponibile.setText(imponibileRound.toString());
-			txtIva.setText(ivaRound.toString());
-			txtTotale.setText((imponibileRound.add(ivaRound)).toString());
+			txtImponibile.setText(Utility.euroFormat(imponibileRound));
+			txtIva.setText(Utility.euroFormat(ivaRound));
+			txtTotale.setText(Utility.euroFormat(imponibileRound.add(ivaRound)));
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
