@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Properties;
 
 import it.exp75.gestionefatture.model.Cliente;
+import it.exp75.gestionefatture.model.DatiStampaFattura;
 import it.exp75.gestionefatture.model.Fattura;
 
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
@@ -71,5 +72,22 @@ public class FattureBusiness {
 		return f;
 	}
 	
+	public DatiStampaFattura datiStampaFattura(Integer id) throws SQLException {
+		
+		DatiStampaFattura ds = new DatiStampaFattura();
+		
+		// Fattura
+		ds.setFattura(fattura(id));
+		
+		//Cliente
+		Integer id_cliente = ds.getFattura().getId_cliente();
+//		ds.setCliente(cliente);
+		
+		
+		
+		
+		
+		return ds;
+	}
 
 }

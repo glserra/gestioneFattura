@@ -14,6 +14,21 @@ public class DatiStampaFattura {
 	private String totIva;
 	private String totFattura;
 	
+	public DatiStampaFattura() {
+		super();
+	}
+	
+	public DatiStampaFattura(Intestazione intestazione, Cliente cliente, Fattura fattura,
+			List<Prestazione> listaPrestazioni, Pagamento pagamento, List<Misure> misure) {
+		super();
+		this.intestazione = intestazione;
+		this.cliente = cliente;
+		this.fattura = fattura;
+		this.listaPrestazioni = listaPrestazioni;
+		this.pagamento = pagamento;
+		this.misure = misure;
+	}
+	
 	public String getImponibile() {
 		return imponibile;
 	}
@@ -38,17 +53,6 @@ public class DatiStampaFattura {
 		this.totFattura = totFattura;
 	}
 
-	public DatiStampaFattura(Intestazione intestazione, Cliente cliente, Fattura fattura,
-			List<Prestazione> listaPrestazioni, Pagamento pagamento, List<Misure> misure) {
-		super();
-		this.intestazione = intestazione;
-		this.cliente = cliente;
-		this.fattura = fattura;
-		this.listaPrestazioni = listaPrestazioni;
-		this.pagamento = pagamento;
-		this.misure = misure;
-	}
-	
 	public Intestazione getIntestazione() {
 		return intestazione;
 	}
