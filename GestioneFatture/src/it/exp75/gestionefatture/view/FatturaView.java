@@ -61,6 +61,13 @@ public class FatturaView extends JFrame {
 	private Pagamento pagamento;
 	private List<Misure> misure;
 	private Intestazione intest;
+	private JTextField txtRagSociale;
+	private JTextField txtIndirizzo;
+	private JTextField txtCap;
+	private JTextField txtCitta;
+	private JTextField txtProvincia;
+	private JTextField txtCF;
+	private JTextField txtPIVA;
 	
 	/**
 	 * Launch the application.
@@ -90,7 +97,7 @@ public class FatturaView extends JFrame {
 		contentPane.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 118, 756, 286);
+		scrollPane.setBounds(10, 184, 756, 285);
 		contentPane.add(scrollPane);
 		
 		tblPrestazioni = new JTable();
@@ -106,39 +113,39 @@ public class FatturaView extends JFrame {
 		scrollPane.setViewportView(tblPrestazioni);
 		
 		JLabel lblCliente = new JLabel("Cliente:");
-		lblCliente.setBounds(81, 51, 73, 14);
+		lblCliente.setBounds(42, 15, 73, 14);
 		contentPane.add(lblCliente);
 		
 		map = createMap();
 		cbClienti = createComboBox(map);
 		
-		cbClienti.setBounds(164, 48, 446, 20);
+		cbClienti.setBounds(134, 12, 446, 20);
 		contentPane.add(cbClienti);
 		
 		JLabel lblImponibile = new JLabel("Imponibile");
-		lblImponibile.setBounds(548, 437, 73, 14);
+		lblImponibile.setBounds(560, 498, 73, 14);
 		contentPane.add(lblImponibile);
 		
 		txtImponibile = new JTextField();
 		txtImponibile.setHorizontalAlignment(SwingConstants.RIGHT);
 		txtImponibile.setEditable(false);
-		txtImponibile.setBounds(634, 434, 86, 20);
+		txtImponibile.setBounds(646, 495, 86, 20);
 		contentPane.add(txtImponibile);
 		txtImponibile.setColumns(10);
 		
 		JLabel lblIva = new JLabel("IVA");
-		lblIva.setBounds(548, 467, 73, 14);
+		lblIva.setBounds(560, 528, 73, 14);
 		contentPane.add(lblIva);
 		
 		txtIva = new JTextField();
 		txtIva.setHorizontalAlignment(SwingConstants.RIGHT);
 		txtIva.setEditable(false);
 		txtIva.setColumns(10);
-		txtIva.setBounds(634, 464, 86, 20);
+		txtIva.setBounds(646, 525, 86, 20);
 		contentPane.add(txtIva);
 		
 		JLabel lblTotale = new JLabel("Totale");
-		lblTotale.setBounds(548, 499, 73, 14);
+		lblTotale.setBounds(560, 560, 73, 14);
 		contentPane.add(lblTotale);
 		
 		txtTotale = new JTextField();
@@ -146,17 +153,17 @@ public class FatturaView extends JFrame {
 		txtTotale.setHorizontalAlignment(SwingConstants.RIGHT);
 		txtTotale.setEditable(false);
 		txtTotale.setColumns(10);
-		txtTotale.setBounds(634, 496, 86, 20);
+		txtTotale.setBounds(646, 557, 86, 20);
 		contentPane.add(txtTotale);
 		
 		txtNote = new JTextField();
 		txtNote.setEditable(false);
-		txtNote.setBounds(10, 496, 352, 20);
+		txtNote.setBounds(22, 557, 352, 20);
 		contentPane.add(txtNote);
 		txtNote.setColumns(10);
 		
 		JLabel lblNote = new JLabel("Note");
-		lblNote.setBounds(10, 467, 46, 14);
+		lblNote.setBounds(22, 528, 46, 14);
 		contentPane.add(lblNote);
 		
 		JButton btnPrintPdf = new JButton("Stampa PDF");
@@ -183,6 +190,42 @@ public class FatturaView extends JFrame {
 		btnPrintPdf.setIcon(new ImageIcon(FatturaView.class.getResource("/it/exp75/gestionefatture/resources/images/s_x__pdf.gif")));
 		btnPrintPdf.setBounds(634, 11, 119, 23);
 		contentPane.add(btnPrintPdf);
+		
+		txtRagSociale = new JTextField();
+		txtRagSociale.setBounds(135, 55, 292, 20);
+		contentPane.add(txtRagSociale);
+		txtRagSociale.setColumns(10);
+		
+		txtIndirizzo = new JTextField();
+		txtIndirizzo.setBounds(134, 86, 293, 20);
+		contentPane.add(txtIndirizzo);
+		txtIndirizzo.setColumns(10);
+		
+		txtCap = new JTextField();
+		txtCap.setBounds(133, 118, 86, 20);
+		contentPane.add(txtCap);
+		txtCap.setColumns(10);
+		
+		txtCitta = new JTextField();
+		txtCitta.setBounds(240, 118, 119, 20);
+		contentPane.add(txtCitta);
+		txtCitta.setColumns(10);
+		
+		txtProvincia = new JTextField();
+		txtProvincia.setBounds(386, 117, 86, 20);
+		contentPane.add(txtProvincia);
+		txtProvincia.setColumns(10);
+		
+		txtCF = new JTextField();
+		txtCF.setBounds(134, 149, 145, 20);
+		contentPane.add(txtCF);
+		txtCF.setColumns(10);
+		
+		txtPIVA = new JTextField();
+		txtPIVA.setText("");
+		txtPIVA.setBounds(341, 149, 86, 20);
+		contentPane.add(txtPIVA);
+		txtPIVA.setColumns(10);
 //		cbClienti.addItemListener(new ItemListener() {
 //			public void itemStateChanged(ItemEvent arg0) {
 //				JOptionPane.showMessageDialog(null, cbClienti.getSelectedIndex());
@@ -198,6 +241,11 @@ public class FatturaView extends JFrame {
 		try {
 			ft = FattureBusiness.getInstance().fattura(idFattura);
 			cliente = ClientiBusiness.getInstance().cliente(ft.getId_cliente());
+			
+			txtRagSociale.setText(cliente.getRagioneSociale());
+			txtIndirizzo.setText(cliente.getIndirizzo());
+			txtCF.setText(cliente.getCodiceFiscale());
+			txtPIVA.setText(cliente.getPartitaIva());
 			selectedCliente(cliente.getId());
 			cbClienti.setEnabled(false);
 			

@@ -72,22 +72,5 @@ public class FattureBusiness {
 		return f;
 	}
 	
-	public DatiStampaFattura datiStampaFattura(Integer id) throws SQLException {
-		
-		DatiStampaFattura ds = new DatiStampaFattura();
-		
-		// Fattura
-		ds.setFattura(fattura(id));
-		
-		//Cliente
-		Integer id_cliente = ds.getFattura().getId_cliente();
-//		ds.setCliente(cliente);
-		
-		
-		
-		
-		
-		return ds;
-	}
 
 }
