@@ -108,52 +108,55 @@ public class FatturaView extends JFrame {
 			new String[] {
 				"Sezione", "Descrizione", "Q", "UM", "IVA", "importo"
 			}
-		));
+		) {
+			boolean[] columnEditables = new boolean[] {
+				false, false, false, false, false, true
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
 		tblPrestazioni.getColumnModel().getColumn(1).setPreferredWidth(324);
 		scrollPane.setViewportView(tblPrestazioni);
 		
-		JLabel lblCliente = new JLabel("Cliente:");
-		lblCliente.setBounds(42, 15, 73, 14);
-		contentPane.add(lblCliente);
-		
-		map = createMap();
-		cbClienti = createComboBox(map);
-		
-		cbClienti.setBounds(134, 12, 446, 20);
-		contentPane.add(cbClienti);
+//		map = createMap();
+//		cbClienti = createComboBox(map);
+//		cbClienti.setBounds(134, 12, 446, 20);
+//		contentPane.add(cbClienti);
 		
 		JLabel lblImponibile = new JLabel("Imponibile");
-		lblImponibile.setBounds(560, 498, 73, 14);
+		lblImponibile.setBounds(535, 498, 73, 14);
 		contentPane.add(lblImponibile);
 		
 		txtImponibile = new JTextField();
 		txtImponibile.setHorizontalAlignment(SwingConstants.RIGHT);
 		txtImponibile.setEditable(false);
-		txtImponibile.setBounds(646, 495, 86, 20);
+		txtImponibile.setBounds(618, 495, 114, 20);
 		contentPane.add(txtImponibile);
 		txtImponibile.setColumns(10);
 		
 		JLabel lblIva = new JLabel("IVA");
-		lblIva.setBounds(560, 528, 73, 14);
+		lblIva.setBounds(535, 528, 73, 14);
 		contentPane.add(lblIva);
 		
 		txtIva = new JTextField();
 		txtIva.setHorizontalAlignment(SwingConstants.RIGHT);
 		txtIva.setEditable(false);
 		txtIva.setColumns(10);
-		txtIva.setBounds(646, 525, 86, 20);
+		txtIva.setBounds(618, 525, 114, 20);
 		contentPane.add(txtIva);
 		
 		JLabel lblTotale = new JLabel("Totale");
-		lblTotale.setBounds(560, 560, 73, 14);
+		lblTotale.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblTotale.setBounds(535, 555, 73, 22);
 		contentPane.add(lblTotale);
 		
 		txtTotale = new JTextField();
-		txtTotale.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		txtTotale.setFont(new Font("Tahoma", Font.BOLD, 12));
 		txtTotale.setHorizontalAlignment(SwingConstants.RIGHT);
 		txtTotale.setEditable(false);
 		txtTotale.setColumns(10);
-		txtTotale.setBounds(646, 557, 86, 20);
+		txtTotale.setBounds(618, 557, 114, 20);
 		contentPane.add(txtTotale);
 		
 		txtNote = new JTextField();
@@ -166,7 +169,8 @@ public class FatturaView extends JFrame {
 		lblNote.setBounds(22, 528, 46, 14);
 		contentPane.add(lblNote);
 		
-		JButton btnPrintPdf = new JButton("Stampa PDF");
+		JButton btnPrintPdf = new JButton("");
+		btnPrintPdf.setToolTipText("Crea Documento PDF");
 		btnPrintPdf.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
@@ -187,45 +191,90 @@ public class FatturaView extends JFrame {
 				CreaPdf.creaFatturaPdf(df);
 			}
 		});
-		btnPrintPdf.setIcon(new ImageIcon(FatturaView.class.getResource("/it/exp75/gestionefatture/resources/images/s_x__pdf.gif")));
-		btnPrintPdf.setBounds(634, 11, 119, 23);
+		btnPrintPdf.setIcon(new ImageIcon(FatturaView.class.getResource("/it/exp75/gestionefatture/resources/images/icons8-export-pdf-30.png")));
+		btnPrintPdf.setBounds(62, 11, 46, 46);
 		contentPane.add(btnPrintPdf);
 		
 		txtRagSociale = new JTextField();
-		txtRagSociale.setBounds(135, 55, 292, 20);
+		txtRagSociale.setBounds(272, 58, 494, 20);
 		contentPane.add(txtRagSociale);
 		txtRagSociale.setColumns(10);
 		
 		txtIndirizzo = new JTextField();
-		txtIndirizzo.setBounds(134, 86, 293, 20);
+		txtIndirizzo.setBounds(272, 89, 494, 20);
 		contentPane.add(txtIndirizzo);
 		txtIndirizzo.setColumns(10);
 		
 		txtCap = new JTextField();
-		txtCap.setBounds(133, 118, 86, 20);
+		txtCap.setBounds(272, 120, 57, 20);
 		contentPane.add(txtCap);
 		txtCap.setColumns(10);
 		
 		txtCitta = new JTextField();
-		txtCitta.setBounds(240, 118, 119, 20);
+		txtCitta.setBounds(383, 121, 275, 20);
 		contentPane.add(txtCitta);
 		txtCitta.setColumns(10);
 		
 		txtProvincia = new JTextField();
-		txtProvincia.setBounds(386, 117, 86, 20);
+		txtProvincia.setBounds(742, 120, 24, 20);
 		contentPane.add(txtProvincia);
 		txtProvincia.setColumns(10);
 		
 		txtCF = new JTextField();
-		txtCF.setBounds(134, 149, 145, 20);
+		txtCF.setBounds(272, 151, 145, 20);
 		contentPane.add(txtCF);
 		txtCF.setColumns(10);
 		
 		txtPIVA = new JTextField();
 		txtPIVA.setText("");
-		txtPIVA.setBounds(341, 149, 86, 20);
+		txtPIVA.setBounds(612, 151, 154, 20);
 		contentPane.add(txtPIVA);
 		txtPIVA.setColumns(10);
+		
+		JLabel lblRagioneSociale = new JLabel("Ragione Sociale:");
+		lblRagioneSociale.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblRagioneSociale.setBounds(164, 61, 98, 14);
+		contentPane.add(lblRagioneSociale);
+		
+		JLabel lblIndirizzo = new JLabel("Indirizzo:");
+		lblIndirizzo.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblIndirizzo.setLabelFor(txtIndirizzo);
+		lblIndirizzo.setBounds(189, 92, 73, 14);
+		contentPane.add(lblIndirizzo);
+		
+		JLabel lblCap = new JLabel("CAP:");
+		lblCap.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblCap.setLabelFor(txtCap);
+		lblCap.setBounds(216, 124, 46, 14);
+		contentPane.add(lblCap);
+		
+		JLabel lblCitta = new JLabel("Citt\u00E0:");
+		lblCitta.setLabelFor(txtCitta);
+		lblCitta.setLabelFor(txtCitta);
+		lblCitta.setBounds(345, 124, 39, 14);
+		contentPane.add(lblCitta);
+		
+		JLabel lblProvincia = new JLabel("Provincia:");
+		lblProvincia.setLabelFor(txtProvincia);
+		lblProvincia.setLabelFor(txtProvincia);
+		lblProvincia.setBounds(675, 123, 57, 14);
+		contentPane.add(lblProvincia);
+		
+		JLabel lblCf = new JLabel("CF:");
+		lblCf.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblCf.setLabelFor(txtCF);
+		lblCf.setBounds(226, 159, 36, 14);
+		contentPane.add(lblCf);
+		
+		JLabel lblPIva = new JLabel("P. IVA:");
+		lblPIva.setLabelFor(txtPIVA);
+		lblPIva.setBounds(569, 154, 39, 14);
+		contentPane.add(lblPIva);
+		
+		JButton btnModSalva = new JButton("");
+		btnModSalva.setIcon(new ImageIcon(FatturaView.class.getResource("/it/exp75/gestionefatture/resources/images/icons8-edit-file-30.png")));
+		btnModSalva.setBounds(10, 11, 46, 46);
+		contentPane.add(btnModSalva);
 //		cbClienti.addItemListener(new ItemListener() {
 //			public void itemStateChanged(ItemEvent arg0) {
 //				JOptionPane.showMessageDialog(null, cbClienti.getSelectedIndex());
@@ -244,10 +293,15 @@ public class FatturaView extends JFrame {
 			
 			txtRagSociale.setText(cliente.getRagioneSociale());
 			txtIndirizzo.setText(cliente.getIndirizzo());
+			txtCitta.setText(cliente.getCitta());
+			txtCap.setText(cliente.getCap());
+			txtProvincia.setText(cliente.getProvincia());
 			txtCF.setText(cliente.getCodiceFiscale());
 			txtPIVA.setText(cliente.getPartitaIva());
-			selectedCliente(cliente.getId());
-			cbClienti.setEnabled(false);
+//			selectedCliente(cliente.getId());
+//			cbClienti.setEnabled(false);
+//			
+			setReadonlyCliente(false);
 			
 			txtNote.setText(ft.getNote());
 			//carico le prestazioni da fattura
@@ -258,6 +312,16 @@ public class FatturaView extends JFrame {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	private void setReadonlyCliente(boolean visible) {
+		txtRagSociale.setEditable(visible);
+		txtIndirizzo.setEditable(visible);
+		txtCitta.setEditable(visible);
+		txtCap.setEditable(visible);
+		txtProvincia.setEditable(visible);
+		txtCF.setEditable(visible);
+		txtPIVA.setEditable(visible);
 	}
 	
 	private Map<Integer, Cliente> createMap() {
