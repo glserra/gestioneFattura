@@ -275,6 +275,24 @@ public class FatturaView extends JFrame {
 		btnModSalva.setIcon(new ImageIcon(FatturaView.class.getResource("/it/exp75/gestionefatture/resources/images/icons8-edit-file-30.png")));
 		btnModSalva.setBounds(10, 11, 46, 46);
 		contentPane.add(btnModSalva);
+		
+		JButton btnPrestazAdd = new JButton("");
+		btnPrestazAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PrestazioniView pv = new PrestazioniView();
+				pv.setVisible(true);
+			}
+		});
+		btnPrestazAdd.setToolTipText("Aggiungi prestazione");
+		btnPrestazAdd.setIcon(new ImageIcon(FatturaView.class.getResource("/it/exp75/gestionefatture/resources/images/icons8-plus-16.png")));
+		btnPrestazAdd.setBounds(10, 160, 20, 20);
+		contentPane.add(btnPrestazAdd);
+		
+		JButton btnPrestazRemove = new JButton("");
+		btnPrestazRemove.setIcon(new ImageIcon(FatturaView.class.getResource("/it/exp75/gestionefatture/resources/images/icons8-minus-16.png")));
+		btnPrestazRemove.setToolTipText("Aggiungi prestazione");
+		btnPrestazRemove.setBounds(36, 160, 20, 20);
+		contentPane.add(btnPrestazRemove);
 //		cbClienti.addItemListener(new ItemListener() {
 //			public void itemStateChanged(ItemEvent arg0) {
 //				JOptionPane.showMessageDialog(null, cbClienti.getSelectedIndex());

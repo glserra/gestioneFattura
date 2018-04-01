@@ -2,10 +2,22 @@ package it.exp75.gestionefatture.view;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import it.exp75.gestionefatture.business.ClientiBusiness;
+import it.exp75.gestionefatture.business.MisureBusiness;
+import it.exp75.gestionefatture.model.Cliente;
+import it.exp75.gestionefatture.model.Misure;
+
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
@@ -20,7 +32,9 @@ public class PrestazioniView extends JFrame {
 	private JTextField txtQuant;
 	private JTextField txtImporto;
 	private JTextField txtIva;
-
+	private Map<Integer, Misure> map = null;
+	
+	
 	/**
 	 * Launch the application.
 	 */
@@ -41,7 +55,7 @@ public class PrestazioniView extends JFrame {
 	 * Create the frame.
 	 */
 	public PrestazioniView() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -64,16 +78,18 @@ public class PrestazioniView extends JFrame {
 		txtQuant.setColumns(10);
 		
 		JComboBox cbMisure = new JComboBox();
-		cbMisure.setBounds(170, 214, 28, 20);
+		map = createMap();
+		cbMisure = createComboBox(map);
+		cbMisure.setBounds(121, 214, 77, 20);
 		contentPane.add(cbMisure);
 		
 		txtImporto = new JTextField();
-		txtImporto.setBounds(338, 214, 86, 20);
+		txtImporto.setBounds(320, 214, 104, 20);
 		contentPane.add(txtImporto);
 		txtImporto.setColumns(10);
 		
 		txtIva = new JTextField();
-		txtIva.setBounds(271, 214, 46, 20);
+		txtIva.setBounds(247, 214, 46, 20);
 		contentPane.add(txtIva);
 		txtIva.setColumns(10);
 		
@@ -89,7 +105,7 @@ public class PrestazioniView extends JFrame {
 		
 		JLabel lblSezione = new JLabel("Sezione:");
 		lblSezione.setLabelFor(txtSezione);
-		lblSezione.setBounds(10, 95, 46, 14);
+		lblSezione.setBounds(10, 95, 62, 14);
 		contentPane.add(lblSezione);
 		
 		JLabel lblDescrizione = new JLabel("Descrizione:");
@@ -99,7 +115,7 @@ public class PrestazioniView extends JFrame {
 		
 		JLabel lblQuantit = new JLabel("Quantit\u00E0:");
 		lblQuantit.setLabelFor(txtQuant);
-		lblQuantit.setBounds(10, 199, 46, 14);
+		lblQuantit.setBounds(10, 199, 62, 14);
 		contentPane.add(lblQuantit);
 		
 		JLabel lblUm = new JLabel("UM:");
@@ -109,12 +125,48 @@ public class PrestazioniView extends JFrame {
 		
 		JLabel lblIva = new JLabel("IVA:");
 		lblIva.setLabelFor(txtIva);
-		lblIva.setBounds(271, 199, 46, 14);
+		lblIva.setBounds(247, 199, 46, 14);
 		contentPane.add(lblIva);
 		
 		JLabel lblImporto = new JLabel("Importo:");
 		lblImporto.setLabelFor(txtImporto);
-		lblImporto.setBounds(338, 199, 46, 14);
+		lblImporto.setBounds(320, 199, 64, 14);
 		contentPane.add(lblImporto);
+	}
+	
+	private JComboBox createComboBox(final Map<Integer, Misure> map) {
+		final JComboBox cbox = new JComboBox();
+		for (Integer id : map.keySet()) {
+			cbox.addItem(map.get(id));
+		}
+//		cbox.addActionListener(new ActionListener() {
+//
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				Cliente selectedItem = (Cliente) cbox.getSelectedItem();
+//				System.out.println(selectedItem.getId() + " " + selectedItem.getRagioneSociale());
+//			}
+//		});
+
+		return cbox;
+	}
+	
+	private Map<Integer, Misure> createMap() {
+		Map<Integer, Misure> map = new HashMap<>();
+		
+		List<Misure> listaMisure = null;
+		
+		try {
+			listaMisure = MisureBusiness.getInstance().listaMisure();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		for (Misure m : listaMisure) {
+			map.put(m.getId(),new Misure(m.getId(),m.getTipo()));
+		}
+		
+		return map;
 	}
 }

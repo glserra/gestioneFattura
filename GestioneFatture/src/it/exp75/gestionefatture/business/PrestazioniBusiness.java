@@ -51,6 +51,24 @@ public class PrestazioniBusiness {
 		return listaPrestazioni;
 	}
 	
+	public int salvaPrestazione(Prestazione prestazione) throws SQLException {
+		
+		String sql = "INSERT INTO prestazioni (ID_fattura,Sezione,Descrizione,UM,Qta,Importo,Aliquota_IVA) VALUES (?,?,?,?,?,?,?)";
+		PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql,PreparedStatement.RETURN_GENERATED_KEYS);
+		ps.setInt(1,prestazione.getId_fattura());
+		ps.setString(2, prestazione.getSezione());
+		ps.setString(3, prestazione.getDescrizione());
+		ps.setInt(4, prestazione.getUnita_misura());
+//		ps.setString(5, prestazione.getCap());
+//		ps.setString(6, prestazione.getCitta());
+//		ps.setString(7, prestazione.getProvincia());
+//		ps.setString(8, prestazione.getNote());
+		int idCliente = ps.executeUpdate();
+		
+		return idCliente;
+	}
+	
+	
 //	public Prestazione prestazione(Integer id) throws SQLException{
 //		
 //		String sql = "SELECT * FROM prestazioni WHERE ID=?";

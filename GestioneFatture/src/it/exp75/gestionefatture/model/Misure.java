@@ -7,6 +7,15 @@ public class Misure {
 	private String nome_misura;
 	
 	
+	public Misure(Integer id, String tipo) {
+		this.id = id;
+		this.nome_misura = tipo;
+	}
+	
+	public Misure() {
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public String toString() {
 		return nome_misura;
