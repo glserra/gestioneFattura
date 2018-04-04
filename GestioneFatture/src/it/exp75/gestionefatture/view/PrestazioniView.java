@@ -14,24 +14,31 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import it.exp75.gestionefatture.business.ClientiBusiness;
+import it.exp75.gestionefatture.business.IConstanti;
 import it.exp75.gestionefatture.business.MisureBusiness;
+import it.exp75.gestionefatture.business.PrestazioniBusiness;
+import it.exp75.gestionefatture.business.Utility;
 import it.exp75.gestionefatture.model.Cliente;
 import it.exp75.gestionefatture.model.Misure;
+import it.exp75.gestionefatture.model.Prestazione;
 
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class PrestazioniView extends JFrame {
 
+	private Integer idFattura;
 	private JPanel contentPane;
 	private JTextField txtSezione;
 	private JTextField txtDescr;
 	private JTextField txtQuant;
 	private JTextField txtImporto;
 	private JTextField txtIva;
+	private JComboBox cbMisure;
 	private Map<Integer, Misure> map = null;
 	
 	
@@ -77,7 +84,7 @@ public class PrestazioniView extends JFrame {
 		contentPane.add(txtQuant);
 		txtQuant.setColumns(10);
 		
-		JComboBox cbMisure = new JComboBox();
+		cbMisure = new JComboBox();
 		map = createMap();
 		cbMisure = createComboBox(map);
 		cbMisure.setBounds(121, 214, 77, 20);
@@ -94,41 +101,51 @@ public class PrestazioniView extends JFrame {
 		txtIva.setColumns(10);
 		
 		JButton btnSalva = new JButton("");
+		btnSalva.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				salvaPrestazione();
+			}
+		});
 		btnSalva.setIcon(new ImageIcon(PrestazioniView.class.getResource("/it/exp75/gestionefatture/resources/images/icons8-save-30.png")));
 		btnSalva.setBounds(7, 11, 40, 40);
 		contentPane.add(btnSalva);
 		
 		JButton btnNewButton = new JButton("");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 		btnNewButton.setIcon(new ImageIcon(PrestazioniView.class.getResource("/it/exp75/gestionefatture/resources/images/icons8-cancel-30.png")));
 		btnNewButton.setBounds(54, 11, 40, 40);
 		contentPane.add(btnNewButton);
 		
-		JLabel lblSezione = new JLabel("Sezione:");
+		JLabel lblSezione = new JLabel(IConstanti.PRESTAZ_SEZIONE);
 		lblSezione.setLabelFor(txtSezione);
 		lblSezione.setBounds(10, 95, 62, 14);
 		contentPane.add(lblSezione);
 		
-		JLabel lblDescrizione = new JLabel("Descrizione:");
+		JLabel lblDescrizione = new JLabel(IConstanti.PRESTAZ_DESCRIZIONE);
 		lblDescrizione.setLabelFor(txtDescr);
 		lblDescrizione.setBounds(10, 146, 86, 14);
 		contentPane.add(lblDescrizione);
 		
-		JLabel lblQuantit = new JLabel("Quantit\u00E0:");
+		JLabel lblQuantit = new JLabel(IConstanti.PRESTAZ_QUANTITA);
 		lblQuantit.setLabelFor(txtQuant);
 		lblQuantit.setBounds(10, 199, 62, 14);
 		contentPane.add(lblQuantit);
 		
-		JLabel lblUm = new JLabel("UM:");
+		JLabel lblUm = new JLabel(IConstanti.PRESTAZ_UM);
 		lblUm.setLabelFor(cbMisure);
 		lblUm.setBounds(170, 199, 28, 14);
 		contentPane.add(lblUm);
 		
-		JLabel lblIva = new JLabel("IVA:");
+		JLabel lblIva = new JLabel(IConstanti.PRESTAZ_IVA);
 		lblIva.setLabelFor(txtIva);
 		lblIva.setBounds(247, 199, 46, 14);
 		contentPane.add(lblIva);
 		
-		JLabel lblImporto = new JLabel("Importo:");
+		JLabel lblImporto = new JLabel(IConstanti.PRESTAZ_IMPORTO);
 		lblImporto.setLabelFor(txtImporto);
 		lblImporto.setBounds(320, 199, 64, 14);
 		contentPane.add(lblImporto);
@@ -168,5 +185,79 @@ public class PrestazioniView extends JFrame {
 		}
 		
 		return map;
+	}
+
+	private void salvaPrestazione() {
+		
+		String sezione = txtSezione.getText();
+		String descrizione = txtDescr.getText();
+		String quantita = txtQuant.getText();
+		String iva = txtIva.getText();
+		String importo = txtImporto.getText();
+
+		String error = null;
+		
+		if(Utility.checkRequiredFieldEmpty(descrizione)) {
+			error += "- " + IConstanti.PRESTAZ_DESCRIZIONE + "\n";
+		}
+
+		if(Utility.checkRequiredFieldEmpty(quantita)) {
+			error += "- " + IConstanti.PRESTAZ_QUANTITA + "\n";
+		}
+		
+		if(Utility.checkRequiredFieldEmpty(iva)) {
+			error += "- " + IConstanti.PRESTAZ_IVA + "\n";
+		}
+		
+		if(Utility.checkRequiredFieldEmpty(importo)) {
+			error += "- " + IConstanti.PRESTAZ_IMPORTO + "\n";
+		}
+		
+		if(error.trim().length() > 0 || !error.equals("")) {
+
+			error = "I seguenti compi sono obbligatori:\n" + error;
+			JOptionPane.showMessageDialog(null, error);
+			
+		} else {
+		
+			Prestazione prestaz = new Prestazione();
+
+			prestaz.setSezione(sezione);
+			prestaz.setDescrizione(descrizione);
+			prestaz.setImporto(new Double(importo));
+			prestaz.setIva(new Integer(iva));
+			prestaz.setQuantita(new Double(quantita));
+			prestaz.setId_fattura(this.idFattura);
+
+			Misure selMisura = (Misure) cbMisure.getSelectedItem();
+			prestaz.setUnita_misura(selMisura.getId());
+
+			try {
+				int intPrestazione = PrestazioniBusiness.getInstance().salvaPrestazione(prestaz);
+				if(intPrestazione > 0) {
+					JOptionPane.showMessageDialog(null, "Prestazione inserita correttamente!");
+					svuotaCampi();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private void svuotaCampi() {
+		txtSezione.setText("");
+		txtDescr.setText("");
+		txtQuant.setText("");
+		txtIva.setText("");
+		txtImporto.setText("");
+	}
+	
+	public Integer getIdFattura() {
+		return idFattura;
+	}
+
+	public void setIdFattura(Integer idFattura) {
+		this.idFattura = idFattura;
 	}
 }

@@ -280,6 +280,7 @@ public class FatturaView extends JFrame {
 		btnPrestazAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PrestazioniView pv = new PrestazioniView();
+				pv.setIdFattura(ID_FATTURA);
 				pv.setVisible(true);
 			}
 		});
@@ -289,10 +290,20 @@ public class FatturaView extends JFrame {
 		contentPane.add(btnPrestazAdd);
 		
 		JButton btnPrestazRemove = new JButton("");
-		btnPrestazRemove.setIcon(new ImageIcon(FatturaView.class.getResource("/it/exp75/gestionefatture/resources/images/icons8-minus-16.png")));
+		btnPrestazRemove.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		btnPrestazRemove.setIcon(new ImageIcon(FatturaView.class.getResource("/it/exp75/gestionefatture/resources/images/s_b_chng.gif")));
 		btnPrestazRemove.setToolTipText("Aggiungi prestazione");
 		btnPrestazRemove.setBounds(36, 160, 20, 20);
 		contentPane.add(btnPrestazRemove);
+		
+		JButton button = new JButton("");
+		button.setIcon(new ImageIcon(FatturaView.class.getResource("/it/exp75/gestionefatture/resources/images/icons8-minus-16.png")));
+		button.setToolTipText("Aggiungi prestazione");
+		button.setBounds(62, 160, 20, 20);
+		contentPane.add(button);
 //		cbClienti.addItemListener(new ItemListener() {
 //			public void itemStateChanged(ItemEvent arg0) {
 //				JOptionPane.showMessageDialog(null, cbClienti.getSelectedIndex());

@@ -59,13 +59,13 @@ public class PrestazioniBusiness {
 		ps.setString(2, prestazione.getSezione());
 		ps.setString(3, prestazione.getDescrizione());
 		ps.setInt(4, prestazione.getUnita_misura());
-//		ps.setString(5, prestazione.getCap());
-//		ps.setString(6, prestazione.getCitta());
-//		ps.setString(7, prestazione.getProvincia());
-//		ps.setString(8, prestazione.getNote());
-		int idCliente = ps.executeUpdate();
+		ps.setDouble(5, prestazione.getQuantita());
+		ps.setDouble(6, prestazione.getImporto());
+		ps.setInt(7, prestazione.getIva());
 		
-		return idCliente;
+		int idPrestazione = ps.executeUpdate();
+		
+		return idPrestazione;
 	}
 	
 	

@@ -26,8 +26,19 @@ public interface IConstanti {
 	static final String CAP = "CAP";
 	static final String CITTA = "Citt\u00E0";
 	static final String PROVINCIA = "Provincia";
-	static final String NOTE = "NOte";
+	static final String NOTE = "Note";
 
+	/*
+	 * campi panel Prestazioni 
+	 */
+	static final String PRESTAZ_DESCRIZIONE = "Descrizione";
+	static final String PRESTAZ_SEZIONE = "Sezione";
+	static final String PRESTAZ_QUANTITA = "Quantit\\u00E0";
+	static final String PRESTAZ_IMPORTO = "Importo";
+	static final String PRESTAZ_IVA = "IVA";
+	static final String PRESTAZ_UM = "UM";
+
+	
 	/*
 	 * Liste
 	 */
