@@ -74,7 +74,7 @@ public Prestazione prestazione(Integer idPrestazione) throws SQLException{
 		return p;
 	}
 
-	public int salvaPrestazione(Prestazione prestazione) throws SQLException {
+	public int insertPrestazione(Prestazione prestazione) throws SQLException {
 		
 		String sql = "INSERT INTO prestazioni (ID_fattura,Sezione,Descrizione,UM,Qta,Importo,Aliquota_IVA) VALUES (?,?,?,?,?,?,?)";
 		PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql,PreparedStatement.RETURN_GENERATED_KEYS);
@@ -85,15 +85,15 @@ public Prestazione prestazione(Integer idPrestazione) throws SQLException{
 		ps.setDouble(5, prestazione.getQuantita());
 		ps.setDouble(6, prestazione.getImporto());
 		ps.setInt(7, prestazione.getIva());
-		
-		int idPrestazione = ps.executeUpdate();
-		
-		return idPrestazione;
+		ps.executeUpdate();
+
+		ResultSet rs = ps.getGeneratedKeys();  
+		return rs.next() ? rs.getInt(1) : 0;
 	}
 	
 	public int updatePrestazione(Prestazione prestazione) throws SQLException {
 		
-		String sql = "UPDATE prestazioni SET Sezione=?,Descrizione=?,UM=?,Qta=?,Importo=?,Aliquota_IVA?= WHERE ID=?";
+		String sql = "UPDATE prestazioni SET Sezione=?,Descrizione=?,UM=?,Qta=?,Importo=?,Aliquota_IVA=? WHERE ID=?";
 		PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
 		ps.setString(1, prestazione.getSezione());
 		ps.setString(2, prestazione.getDescrizione());
@@ -102,10 +102,18 @@ public Prestazione prestazione(Integer idPrestazione) throws SQLException{
 		ps.setDouble(5, prestazione.getImporto());
 		ps.setInt(6, prestazione.getIva());
 		ps.setInt(7, prestazione.getId());
+
+		return ps.executeUpdate();
+	}
+
+public int deletePrestazione(Integer idPrestazione) throws SQLException{
 		
-		int idPrestazione = ps.executeUpdate();
-		
-		return idPrestazione;
+		String sql = "DELETE FROM prestazioni WHERE ID=?";
+		MyDBConnector connector = MyDBConnector.getConnector();
+		PreparedStatement ps = connector.getConnention().prepareStatement(sql);
+		ps.setInt(1, idPrestazione.intValue());
+		return ps.executeUpdate();
+
 	}
 
 }

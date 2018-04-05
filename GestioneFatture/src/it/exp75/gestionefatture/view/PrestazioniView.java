@@ -104,12 +104,7 @@ public class PrestazioniView extends JFrame {
 		JButton btnSalva = new JButton("");
 		btnSalva.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(getIdPrestazione()>0) {
-					
-				} else {
-					salvaPrestazione();
-				}
-				
+				salvaPrestazione();
 				parent.loadPrestazioni();
 			}
 		});
@@ -258,10 +253,25 @@ public class PrestazioniView extends JFrame {
 			prestaz.setUnita_misura(selMisura.getId());
 
 			try {
-				int intPrestazione = PrestazioniBusiness.getInstance().salvaPrestazione(prestaz);
+				int intPrestazione = 0;
+				String operation = null;
+
+				if(getIdPrestazione() != null && getIdPrestazione()>0) {
+					prestaz.setId(getIdPrestazione());
+					intPrestazione = PrestazioniBusiness.getInstance().updatePrestazione(prestaz);
+					operation = "aggiornata";
+				} else {
+					intPrestazione = PrestazioniBusiness.getInstance().insertPrestazione(prestaz);
+					if(intPrestazione > 0) {
+						setIdPrestazione(intPrestazione);
+					}
+					operation = "inserita";
+				}
+				
 				if(intPrestazione > 0) {
-					JOptionPane.showMessageDialog(null, "Prestazione inserita correttamente!");
-					svuotaCampi();
+
+					JOptionPane.showMessageDialog(null, "Prestazione " + operation + " correttamente!" + intPrestazione);
+//					svuotaCampi();
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -269,6 +279,7 @@ public class PrestazioniView extends JFrame {
 			}
 		}
 	}
+	
 	
 	private void svuotaCampi() {
 		txtSezione.setText("");

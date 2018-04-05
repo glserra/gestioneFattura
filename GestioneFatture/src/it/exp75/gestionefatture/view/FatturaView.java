@@ -310,6 +310,14 @@ public class FatturaView extends JFrame {
 		contentPane.add(btnPrestazRemove);
 		
 		JButton button = new JButton("");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Object value = tblPrestazioni.getValueAt(tblPrestazioni.getSelectedRow(),0);
+				Integer idValue = Integer.parseInt(value.toString());
+				deletePrestazione(idValue);
+
+			}
+		});
 		button.setIcon(new ImageIcon(FatturaView.class.getResource("/it/exp75/gestionefatture/resources/images/icons8-minus-16.png")));
 		button.setToolTipText("Aggiungi prestazione");
 		button.setBounds(62, 160, 20, 20);
@@ -324,6 +332,14 @@ public class FatturaView extends JFrame {
 //				JOptionPane.showMessageDialog(null, cbClienti.getSelectedIndex());
 //			}//((Cliente)cbClienti.getSelectedItem()).getId() +
 //		});
+	}
+	
+	public void deletePrestazione(Integer idPrestazione) {
+		if(idPrestazione != null && idPrestazione > 0) {
+			int x = JOptionPane.showOptionDialog(null, "Sei sicuro?", "", 0, 1, null, null, null);
+			JOptionPane.showMessageDialog(null, "hai premuto " + x);
+		}
+		
 	}
 	
 	public void setData(String txt) {
