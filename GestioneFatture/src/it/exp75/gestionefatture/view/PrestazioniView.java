@@ -32,6 +32,7 @@ import javax.swing.JOptionPane;
 public class PrestazioniView extends JFrame {
 
 	private Integer idFattura;
+	private Integer idPrestazione;
 	private JPanel contentPane;
 	private JTextField txtSezione;
 	private JTextField txtDescr;
@@ -45,23 +46,23 @@ public class PrestazioniView extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PrestazioniView frame = new PrestazioniView();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					PrestazioniView frame = new PrestazioniView();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
 	 */
-	public PrestazioniView() {
+	public PrestazioniView(FatturaView parent) {
 //		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -104,6 +105,7 @@ public class PrestazioniView extends JFrame {
 		btnSalva.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				salvaPrestazione();
+				parent.loadPrestazioni();
 			}
 		});
 		btnSalva.setIcon(new ImageIcon(PrestazioniView.class.getResource("/it/exp75/gestionefatture/resources/images/icons8-save-30.png")));
@@ -151,6 +153,24 @@ public class PrestazioniView extends JFrame {
 		contentPane.add(lblImporto);
 	}
 	
+	
+	public void selPrestazione() {
+		
+		try {
+			Prestazione prestazione = PrestazioniBusiness.getInstance().prestazione(getIdPrestazione());
+			
+			txtSezione.setText(prestazione.getSezione());
+			txtDescr.setText(prestazione.getDescrizione());
+			txtQuant.setText(prestazione.getQuantita().toString());
+			txtImporto.setText(prestazione.getImporto().toString());
+			txtIva.setText(prestazione.getIva().toString());
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	private JComboBox createComboBox(final Map<Integer, Misure> map) {
 		final JComboBox cbox = new JComboBox();
 		for (Integer id : map.keySet()) {
@@ -195,7 +215,7 @@ public class PrestazioniView extends JFrame {
 		String iva = txtIva.getText();
 		String importo = txtImporto.getText();
 
-		String error = null;
+		String error = "";
 		
 		if(Utility.checkRequiredFieldEmpty(descrizione)) {
 			error += "- " + IConstanti.PRESTAZ_DESCRIZIONE + "\n";
@@ -259,5 +279,13 @@ public class PrestazioniView extends JFrame {
 
 	public void setIdFattura(Integer idFattura) {
 		this.idFattura = idFattura;
+	}
+
+	public Integer getIdPrestazione() {
+		return idPrestazione;
+	}
+
+	public void setIdPrestazione(Integer idPrestazione) {
+		this.idPrestazione = idPrestazione;
 	}
 }

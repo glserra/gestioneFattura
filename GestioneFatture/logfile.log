@@ -1,24 +1,6 @@
-apr 04, 2018 4:24:50 PM it.exp75.gestionefatture.business.Config loadConfig
+apr 05, 2018 5:40:59 PM it.exp75.gestionefatture.business.Config loadConfig
 INFORMAZIONI: loadConfig :: loading Configuration
-apr 04, 2018 4:24:50 PM it.exp75.gestionefatture.business.Config configure
+apr 05, 2018 5:40:59 PM it.exp75.gestionefatture.business.Config configure
 INFORMAZIONI: configure :: setup parametes
-apr 04, 2018 4:24:50 PM it.exp75.gestionefatture.business.Config loadConfig
-INFORMAZIONI: loadConfig :: loading Completed
-apr 04, 2018 4:25:06 PM it.exp75.gestionefatture.business.Config loadConfig
-INFORMAZIONI: loadConfig :: loading Configuration
-apr 04, 2018 4:25:06 PM it.exp75.gestionefatture.business.Config configure
-INFORMAZIONI: configure :: setup parametes
-apr 04, 2018 4:25:06 PM it.exp75.gestionefatture.business.Config loadConfig
-INFORMAZIONI: loadConfig :: loading Completed
-apr 04, 2018 4:25:27 PM it.exp75.gestionefatture.business.Config loadConfig
-INFORMAZIONI: loadConfig :: loading Configuration
-apr 04, 2018 4:25:27 PM it.exp75.gestionefatture.business.Config configure
-INFORMAZIONI: configure :: setup parametes
-apr 04, 2018 4:25:27 PM it.exp75.gestionefatture.business.Config loadConfig
-INFORMAZIONI: loadConfig :: loading Completed
-apr 04, 2018 4:25:32 PM it.exp75.gestionefatture.business.Config loadConfig
-INFORMAZIONI: loadConfig :: loading Configuration
-apr 04, 2018 4:25:32 PM it.exp75.gestionefatture.business.Config configure
-INFORMAZIONI: configure :: setup parametes
-apr 04, 2018 4:25:32 PM it.exp75.gestionefatture.business.Config loadConfig
+apr 05, 2018 5:40:59 PM it.exp75.gestionefatture.business.Config loadConfig
 INFORMAZIONI: loadConfig :: loading Completed
