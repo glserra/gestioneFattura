@@ -104,7 +104,12 @@ public class PrestazioniView extends JFrame {
 		JButton btnSalva = new JButton("");
 		btnSalva.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				salvaPrestazione();
+				if(getIdPrestazione()>0) {
+					
+				} else {
+					salvaPrestazione();
+				}
+				
 				parent.loadPrestazioni();
 			}
 		});

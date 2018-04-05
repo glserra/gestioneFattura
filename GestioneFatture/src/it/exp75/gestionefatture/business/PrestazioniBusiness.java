@@ -91,30 +91,21 @@ public Prestazione prestazione(Integer idPrestazione) throws SQLException{
 		return idPrestazione;
 	}
 	
-	
-//	public Prestazione prestazione(Integer id) throws SQLException{
-//		
-//		String sql = "SELECT * FROM prestazioni WHERE ID=?";
-//		MyDBConnector connector = MyDBConnector.getConnector();
-//		PreparedStatement ps = connector.getConnention().prepareStatement(sql);
-////		ps.setInt(1, idFattura.intValue());
-//		ResultSet rs = ps.executeQuery();
-//		
-//		List<Prestazione> listaPrestazioni = new ArrayList<Prestazione>();
-//		while(rs.next()) {
-//			
-//			Prestazione p = new Prestazione();
-//			p.setId(rs.getInt(1));
-//			p.setId_fattura(rs.getInt(2));
-//			p.setSezione(rs.getString(3));
-//			p.setDescrizione(rs.getString(4));
-//			p.setUnita_misura(rs.getInt(5));
-//			p.setQuantita(rs.getDouble(6));
-//			p.setImporto(rs.getDouble(7));
-//			p.setIva(rs.getInt(8));
-//			listaPrestazioni.add(p);
-//		}
-////		return listaPrestazioni;
-//	}
+	public int updatePrestazione(Prestazione prestazione) throws SQLException {
+		
+		String sql = "UPDATE prestazioni SET Sezione=?,Descrizione=?,UM=?,Qta=?,Importo=?,Aliquota_IVA?= WHERE ID=?";
+		PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+		ps.setString(1, prestazione.getSezione());
+		ps.setString(2, prestazione.getDescrizione());
+		ps.setInt(3, prestazione.getUnita_misura());
+		ps.setDouble(4, prestazione.getQuantita());
+		ps.setDouble(5, prestazione.getImporto());
+		ps.setInt(6, prestazione.getIva());
+		ps.setInt(7, prestazione.getId());
+		
+		int idPrestazione = ps.executeUpdate();
+		
+		return idPrestazione;
+	}
 
 }
