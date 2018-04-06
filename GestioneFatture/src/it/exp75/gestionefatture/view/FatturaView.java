@@ -336,8 +336,21 @@ public class FatturaView extends JFrame {
 	
 	public void deletePrestazione(Integer idPrestazione) {
 		if(idPrestazione != null && idPrestazione > 0) {
-			int x = JOptionPane.showOptionDialog(null, "Sei sicuro?", "", 0, 1, null, null, null);
-			JOptionPane.showMessageDialog(null, "hai premuto " + x);
+			int x = JOptionPane.showOptionDialog(null, "Sei sicuro di voler rimuovere la prestazione selezionata?", "Cancella Prestazione", 0, 2, null, null, null);
+			if(x == 0) {
+				try {
+					
+					int delValue = PrestazioniBusiness.getInstance().deletePrestazione(idPrestazione);
+					if(delValue > 0) {
+						JOptionPane.showMessageDialog(null, "Prestazione cancellata correttamente!");
+						loadPrestazioni();
+					}
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 		
 	}

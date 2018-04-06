@@ -77,7 +77,8 @@ public Prestazione prestazione(Integer idPrestazione) throws SQLException{
 	public int insertPrestazione(Prestazione prestazione) throws SQLException {
 		
 		String sql = "INSERT INTO prestazioni (ID_fattura,Sezione,Descrizione,UM,Qta,Importo,Aliquota_IVA) VALUES (?,?,?,?,?,?,?)";
-		PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql,PreparedStatement.RETURN_GENERATED_KEYS);
+		MyDBConnector connector = MyDBConnector.getConnector();
+		PreparedStatement ps = connector.getConnention().prepareStatement(sql,PreparedStatement.RETURN_GENERATED_KEYS);
 		ps.setInt(1,prestazione.getId_fattura());
 		ps.setString(2, prestazione.getSezione());
 		ps.setString(3, prestazione.getDescrizione());
@@ -94,7 +95,8 @@ public Prestazione prestazione(Integer idPrestazione) throws SQLException{
 	public int updatePrestazione(Prestazione prestazione) throws SQLException {
 		
 		String sql = "UPDATE prestazioni SET Sezione=?,Descrizione=?,UM=?,Qta=?,Importo=?,Aliquota_IVA=? WHERE ID=?";
-		PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+		MyDBConnector connector = MyDBConnector.getConnector();
+		PreparedStatement ps = connector.getConnention().prepareStatement(sql);
 		ps.setString(1, prestazione.getSezione());
 		ps.setString(2, prestazione.getDescrizione());
 		ps.setInt(3, prestazione.getUnita_misura());
