@@ -1,5 +1,6 @@
 package it.exp75.gestionefatture.pdf;
 
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -50,6 +51,26 @@ public class CreaPdf {
 //			PDFCreator.addAzienda(document);
 //			PDFCreator.addCliente(document, df.getCliente());
 //			
+			
+			try {
+
+				File pdfFile = new File(titolo + ".pdf");
+				if (pdfFile.exists()) {
+
+					if (Desktop.isDesktopSupported()) {
+						Desktop.getDesktop().open(pdfFile);
+					} else {
+						System.out.println("Awt Desktop is not supported!");
+					}
+
+				} else {
+					System.out.println("File is not exists!");
+				}
+
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+			  
 			
 		}catch (DocumentException | FileNotFoundException e) {
 			e.printStackTrace();
