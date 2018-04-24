@@ -72,5 +72,20 @@ public class FattureBusiness {
 		return f;
 	}
 	
+	public int salvaFattura(Fattura fattura) throws SQLException {
+		
+		String sql = "INSERT INTO fatture (ID_cliente,Num_fattura,Data_fattura,Pagamento,Pagata,Note) VALUES (?,?,?,?,?,?)";
+		PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql,PreparedStatement.RETURN_GENERATED_KEYS);
+		ps.setInt(1,fattura.getId_cliente());
+		ps.setInt(2, fattura.getNum_fattura());
+		ps.setDate(3, fattura.getData_fattura());
+		ps.setInt(4, fattura.getPagamento());
+		ps.setBoolean(5, fattura.isPagata());
+		ps.setString(6, fattura.getNote());
+		int idFattura = ps.executeUpdate();
+		
+		return idFattura;
+	}
+	
 
 }

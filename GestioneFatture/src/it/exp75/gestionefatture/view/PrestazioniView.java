@@ -270,7 +270,7 @@ public class PrestazioniView extends JFrame {
 				
 				if(intPrestazione > 0) {
 
-					JOptionPane.showMessageDialog(null, "Prestazione " + operation + " correttamente!" + intPrestazione);
+					JOptionPane.showMessageDialog(null, "Prestazione " + operation + " correttamente!");
 //					svuotaCampi();
 				}
 			} catch (SQLException e) {

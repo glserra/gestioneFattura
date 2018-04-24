@@ -70,7 +70,7 @@ public class FatturaView extends JFrame {
 	private JTextField txtPIVA;
 	private String returnValue;
 	private JTextField txtTest;
-	FatturaView parent;
+//	FatturaView parent;
 	DefaultTableModel dtm;
 	/**
 	 * Launch the application.
@@ -92,7 +92,7 @@ public class FatturaView extends JFrame {
 	 * Create the frame.
 	 */
 	public FatturaView() {
-		this.parent = this;
+//		this.parent = this;
 //		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 792, 641);
 		contentPane = new JPanel();
@@ -283,7 +283,7 @@ public class FatturaView extends JFrame {
 		JButton btnPrestazAdd = new JButton("");
 		btnPrestazAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PrestazioniView pv = new PrestazioniView(parent);
+				PrestazioniView pv = new PrestazioniView(FatturaView.this);
 				pv.setIdFattura(ID_FATTURA);
 				pv.setVisible(true);
 			}
@@ -293,10 +293,10 @@ public class FatturaView extends JFrame {
 		btnPrestazAdd.setBounds(10, 160, 20, 20);
 		contentPane.add(btnPrestazAdd);
 		
-		JButton btnPrestazRemove = new JButton("");
-		btnPrestazRemove.addActionListener(new ActionListener() {
+		JButton btnPrestazMod = new JButton("");
+		btnPrestazMod.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				PrestazioniView pv = new PrestazioniView(parent);
+				PrestazioniView pv = new PrestazioniView(FatturaView.this);
 				Object value = tblPrestazioni.getValueAt(tblPrestazioni.getSelectedRow(),0);
 				Integer idValue = Integer.parseInt(value.toString());
 				pv.setIdPrestazione(idValue);
@@ -304,13 +304,13 @@ public class FatturaView extends JFrame {
 				pv.setVisible(true);
 			}
 		});
-		btnPrestazRemove.setIcon(new ImageIcon(FatturaView.class.getResource("/it/exp75/gestionefatture/resources/images/s_b_chng.gif")));
-		btnPrestazRemove.setToolTipText("Aggiungi prestazione");
-		btnPrestazRemove.setBounds(36, 160, 20, 20);
-		contentPane.add(btnPrestazRemove);
+		btnPrestazMod.setIcon(new ImageIcon(FatturaView.class.getResource("/it/exp75/gestionefatture/resources/images/s_b_chng.gif")));
+		btnPrestazMod.setToolTipText("Aggiungi prestazione");
+		btnPrestazMod.setBounds(36, 160, 20, 20);
+		contentPane.add(btnPrestazMod);
 		
-		JButton button = new JButton("");
-		button.addActionListener(new ActionListener() {
+		JButton btnPrestazDel = new JButton("");
+		btnPrestazDel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Object value = tblPrestazioni.getValueAt(tblPrestazioni.getSelectedRow(),0);
 				Integer idValue = Integer.parseInt(value.toString());
@@ -318,10 +318,10 @@ public class FatturaView extends JFrame {
 
 			}
 		});
-		button.setIcon(new ImageIcon(FatturaView.class.getResource("/it/exp75/gestionefatture/resources/images/icons8-minus-16.png")));
-		button.setToolTipText("Aggiungi prestazione");
-		button.setBounds(62, 160, 20, 20);
-		contentPane.add(button);
+		btnPrestazDel.setIcon(new ImageIcon(FatturaView.class.getResource("/it/exp75/gestionefatture/resources/images/icons8-minus-16.png")));
+		btnPrestazDel.setToolTipText("Aggiungi prestazione");
+		btnPrestazDel.setBounds(62, 160, 20, 20);
+		contentPane.add(btnPrestazDel);
 		
 		txtTest = new JTextField();
 		txtTest.setBounds(33, 120, 86, 20);
