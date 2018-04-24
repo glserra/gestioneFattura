@@ -46,10 +46,7 @@ public class PrestazioniDialog extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						
-						parent.setData("ciao");
 						setVisible(false);
-						
 						dispose();
 					}
 				});

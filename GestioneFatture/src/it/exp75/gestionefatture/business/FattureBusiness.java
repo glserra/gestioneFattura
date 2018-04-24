@@ -87,5 +87,16 @@ public class FattureBusiness {
 		return idFattura;
 	}
 	
-
+//	public Integer numNextFattura() throws SQLException{
+//		
+//		
+//		String sql = "SELECT MAX(Num_fattura) FROM fatture WHERE Data_fattura BETWEEN DATE_ADD(Now(), Interval -1 YEAR) AND Now()";
+//		MyDBConnector connector = MyDBConnector.getConnector();
+//		PreparedStatement ps = connector.getConnention().prepareStatement(sql);
+//		ResultSet rs = ps.executeQuery();
+//		
+//		rs.next();
+//		return rs.getInt();
+//	}
+	
 }

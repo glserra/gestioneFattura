@@ -308,6 +308,7 @@ public class GestioneFatturazioneView {
 		btnNuova.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FatturaView fv = new FatturaView();
+				fv.nuovaFattura();
 				fv.setVisible(true);
 			}
 		});

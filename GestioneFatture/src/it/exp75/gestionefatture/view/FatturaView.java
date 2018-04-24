@@ -10,9 +10,11 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Vector;
 
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField.AbstractFormatter;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -21,6 +23,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
+import org.jdatepicker.impl.DateComponentFormatter;
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
 
 import it.exp75.gestionefatture.business.ClientiBusiness;
 import it.exp75.gestionefatture.business.FattureBusiness;
@@ -42,6 +50,7 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
+import java.awt.Canvas;
 
 public class FatturaView extends JFrame {
 
@@ -69,9 +78,15 @@ public class FatturaView extends JFrame {
 	private JTextField txtCF;
 	private JTextField txtPIVA;
 	private String returnValue;
-	private JTextField txtTest;
-//	FatturaView parent;
+	UtilDateModel modelDate;
+	
 	DefaultTableModel dtm;
+	private JTextField txtNFattura;
+	
+	private JDatePickerImpl datePicker;
+	
+	private JLabel lbl_NFattura;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -122,11 +137,6 @@ public class FatturaView extends JFrame {
 		});
 		tblPrestazioni.getColumnModel().getColumn(1).setPreferredWidth(324);
 		scrollPane.setViewportView(tblPrestazioni);
-		
-//		map = createMap();
-//		cbClienti = createComboBox(map);
-//		cbClienti.setBounds(134, 12, 446, 20);
-//		contentPane.add(cbClienti);
 		
 		JLabel lblImponibile = new JLabel("Imponibile");
 		lblImponibile.setBounds(535, 498, 73, 14);
@@ -237,7 +247,7 @@ public class FatturaView extends JFrame {
 		
 		JLabel lblRagioneSociale = new JLabel("Ragione Sociale:");
 		lblRagioneSociale.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblRagioneSociale.setBounds(164, 61, 98, 14);
+		lblRagioneSociale.setBounds(157, 61, 105, 14);
 		contentPane.add(lblRagioneSociale);
 		
 		JLabel lblIndirizzo = new JLabel("Indirizzo:");
@@ -276,7 +286,7 @@ public class FatturaView extends JFrame {
 		contentPane.add(lblPIva);
 		
 		JButton btnModSalva = new JButton("");
-		btnModSalva.setIcon(new ImageIcon(FatturaView.class.getResource("/it/exp75/gestionefatture/resources/images/icons8-edit-file-30.png")));
+		btnModSalva.setIcon(new ImageIcon(FatturaView.class.getResource("/it/exp75/gestionefatture/resources/images/icons8-save-30.png")));
 		btnModSalva.setBounds(10, 11, 46, 46);
 		contentPane.add(btnModSalva);
 		
@@ -323,10 +333,30 @@ public class FatturaView extends JFrame {
 		btnPrestazDel.setBounds(62, 160, 20, 20);
 		contentPane.add(btnPrestazDel);
 		
-		txtTest = new JTextField();
-		txtTest.setBounds(33, 120, 86, 20);
-		contentPane.add(txtTest);
-		txtTest.setColumns(10);
+		JLabel lblFatturaN = new JLabel("Fattura n.");
+		lblFatturaN.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblFatturaN.setBounds(4, 68, 64, 14);
+		contentPane.add(lblFatturaN);
+		
+		txtNFattura = new JTextField();
+		lblFatturaN.setLabelFor(txtNFattura);
+		txtNFattura.setBounds(122, 89, 39, 20);
+		contentPane.add(txtNFattura);
+		txtNFattura.setColumns(10);
+		
+		datePicker = generateDatePicker("today", "month", "year");
+		datePicker.setBounds(62, 120, 133, 29);
+		contentPane.add(datePicker);
+		
+		JLabel lblData = new JLabel("data:");
+		lblData.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblData.setBounds(10, 123, 46, 14);
+		contentPane.add(lblData);
+		
+		lbl_NFattura = new JLabel("0");
+		lbl_NFattura.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lbl_NFattura.setBounds(72, 68, 46, 14);
+		contentPane.add(lbl_NFattura);
 //		cbClienti.addItemListener(new ItemListener() {
 //			public void itemStateChanged(ItemEvent arg0) {
 //				JOptionPane.showMessageDialog(null, cbClienti.getSelectedIndex());
@@ -355,10 +385,6 @@ public class FatturaView extends JFrame {
 		
 	}
 	
-	public void setData(String txt) {
-		txtTest.setText(txt);
-	}
-	
 	public void selFattura(Integer idFattura) {
 		
 		ID_FATTURA = idFattura;
@@ -367,17 +393,15 @@ public class FatturaView extends JFrame {
 			ft = FattureBusiness.getInstance().fattura(idFattura);
 			cliente = ClientiBusiness.getInstance().cliente(ft.getId_cliente());
 			
-			txtRagSociale.setText(cliente.getRagioneSociale());
-			txtIndirizzo.setText(cliente.getIndirizzo());
-			txtCitta.setText(cliente.getCitta());
-			txtCap.setText(cliente.getCap());
-			txtProvincia.setText(cliente.getProvincia());
-			txtCF.setText(cliente.getCodiceFiscale());
-			txtPIVA.setText(cliente.getPartitaIva());
-//			selectedCliente(cliente.getId());
-//			cbClienti.setEnabled(false);
-//			
+			compilaCampiCliente(cliente);
+			
 			setReadonlyCliente(false);
+			
+//			modelDate.setDate(2012, 11, 10);
+//			modelDate.setSelected(true);
+//			
+			lbl_NFattura.setText(ft.getNum_fattura().toString());
+			txtNFattura.setText(ft.getNum_fattura().toString());
 			
 			txtNote.setText(ft.getNote());
 			//carico le prestazioni da fattura
@@ -388,6 +412,65 @@ public class FatturaView extends JFrame {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public void nuovaFattura() {
+		cbClienti = new JComboBox();
+		map = createMap();
+		cbClienti = createComboBox(map);
+		cbClienti.setBounds(272, 11, 494, 20);
+		contentPane.add(cbClienti);
+		
+		JLabel lblSelezionaCliente = new JLabel("Seleziona Cliente:");
+		lblSelezionaCliente.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblSelezionaCliente.setLabelFor(cbClienti);
+		lblSelezionaCliente.setBounds(164, 14, 98, 14);
+		contentPane.add(lblSelezionaCliente);
+		
+		cbClienti.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Cliente clienteSel = null;
+
+				Cliente selectedItem = (Cliente) cbClienti.getSelectedItem();
+				try {
+					clienteSel = ClientiBusiness.getInstance().cliente(selectedItem.getId());
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				compilaCampiCliente(clienteSel);
+				setReadonlyCliente(false);
+			}
+			});
+		
+//		selectedCliente(cliente.getId());
+//		cbClienti.setEnabled(false);
+	}
+	
+	private JDatePickerImpl generateDatePicker(String day, String month, String year){
+
+		Properties p = new Properties();
+		p.put("text.today", day);
+		p.put("text.month", month);
+		p.put("text.year", year);
+		
+		modelDate = new UtilDateModel();
+		JDatePanelImpl datePanel = new JDatePanelImpl(modelDate, p);
+		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateComponentFormatter());
+		
+		return datePicker;
+		
+	}
+	
+	private void compilaCampiCliente(Cliente cliente) {
+		txtRagSociale.setText(cliente.getRagioneSociale());
+		txtIndirizzo.setText(cliente.getIndirizzo());
+		txtCitta.setText(cliente.getCitta());
+		txtCap.setText(cliente.getCap());
+		txtProvincia.setText(cliente.getProvincia());
+		txtCF.setText(cliente.getCodiceFiscale());
+		txtPIVA.setText(cliente.getPartitaIva());
 	}
 	
 	private void setReadonlyCliente(boolean visible) {
@@ -412,6 +495,7 @@ public class FatturaView extends JFrame {
 			e.printStackTrace();
 		}
 		
+		map.put(null,null);
 		for (Cliente c : listaClienti) {
 			map.put(c.getId(),new Cliente(c.getId(),c.getRagioneSociale()));
 		}
