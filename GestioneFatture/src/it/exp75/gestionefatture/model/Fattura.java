@@ -1,6 +1,6 @@
 package it.exp75.gestionefatture.model;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class Fattura {
 	private Integer id_fattura;

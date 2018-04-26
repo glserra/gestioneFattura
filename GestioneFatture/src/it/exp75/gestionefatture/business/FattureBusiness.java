@@ -2,6 +2,7 @@ package it.exp75.gestionefatture.business;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -78,7 +79,7 @@ public class FattureBusiness {
 		PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql,PreparedStatement.RETURN_GENERATED_KEYS);
 		ps.setInt(1,fattura.getId_cliente());
 		ps.setInt(2, fattura.getNum_fattura());
-		ps.setDate(3, fattura.getData_fattura());
+		ps.setDate(3, (Date) fattura.getData_fattura());
 		ps.setInt(4, fattura.getPagamento());
 		ps.setBoolean(5, fattura.isPagata());
 		ps.setString(6, fattura.getNote());
@@ -87,16 +88,15 @@ public class FattureBusiness {
 		return idFattura;
 	}
 	
-//	public Integer numNextFattura() throws SQLException{
-//		
-//		
-//		String sql = "SELECT MAX(Num_fattura) FROM fatture WHERE Data_fattura BETWEEN DATE_ADD(Now(), Interval -1 YEAR) AND Now()";
-//		MyDBConnector connector = MyDBConnector.getConnector();
-//		PreparedStatement ps = connector.getConnention().prepareStatement(sql);
-//		ResultSet rs = ps.executeQuery();
-//		
-//		rs.next();
-//		return rs.getInt();
-//	}
+	public Integer numNextFattura() throws SQLException{
+		
+		String sql = "SELECT MAX(Num_fattura) FROM fatture WHERE YEAR(Data_fattura) BETWEEN YEAR(DATE_ADD(NOW(), INTERVAL -1 YEAR)) AND YEAR(Now())";
+		MyDBConnector connector = MyDBConnector.getConnector();
+		PreparedStatement ps = connector.getConnention().prepareStatement(sql);
+		ResultSet rs = ps.executeQuery();
+		
+		rs.next();
+		return rs.getInt(1);
+	}
 	
 }

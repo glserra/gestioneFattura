@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -286,6 +287,26 @@ public class FatturaView extends JFrame {
 		contentPane.add(lblPIva);
 		
 		JButton btnModSalva = new JButton("");
+		btnModSalva.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Fattura ft = new Fattura();
+				ft.setNum_fattura(new Integer(lbl_NFattura.getText()));
+				Cliente selectedItem = (Cliente) cbClienti.getSelectedItem();
+				ft.setId_cliente(selectedItem.getId());
+				ft.setData_fattura(modelDate.getValue());
+				int salvaFattura = 0;
+				try {
+					salvaFattura = FattureBusiness.getInstance().salvaFattura(ft);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				if(salvaFattura > 0) {
+					JOptionPane.showMessageDialog(null, "Fattura salvata correttamente!");
+				}
+			}
+		});
 		btnModSalva.setIcon(new ImageIcon(FatturaView.class.getResource("/it/exp75/gestionefatture/resources/images/icons8-save-30.png")));
 		btnModSalva.setBounds(10, 11, 46, 46);
 		contentPane.add(btnModSalva);
@@ -443,7 +464,21 @@ public class FatturaView extends JFrame {
 				setReadonlyCliente(false);
 			}
 			});
+		Integer numNextFattura = 0;
+		try {
+			numNextFattura = FattureBusiness.getInstance().numNextFattura();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
+		if(numNextFattura == 0) {
+			numNextFattura = 1;
+		} else {
+			numNextFattura++;
+		}
+		
+		lbl_NFattura.setText(numNextFattura.toString());
 //		selectedCliente(cliente.getId());
 //		cbClienti.setEnabled(false);
 	}
