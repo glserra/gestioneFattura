@@ -117,5 +117,18 @@ public class Utility {
 		formatter.setMinimumFractionDigits(2);
 		return formatter.format(value);
 	}
+	
+	public static java.util.Date convertFromSQLDateToJAVADate(java.sql.Date sqlDate) {
+        java.util.Date javaDate = null;
+        if (sqlDate != null) {
+            javaDate = new Date(sqlDate.getTime());
+        }
+        return javaDate;
+    }
+	
+	public static java.sql.Date convertJavaDateToSqlDate(java.util.Date date) {
+	    return new java.sql.Date(date.getTime());
+	}
+	
 
 }

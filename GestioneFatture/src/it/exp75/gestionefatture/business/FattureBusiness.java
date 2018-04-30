@@ -79,9 +79,9 @@ public class FattureBusiness {
 		PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql,PreparedStatement.RETURN_GENERATED_KEYS);
 		ps.setInt(1,fattura.getId_cliente());
 		ps.setInt(2, fattura.getNum_fattura());
-		ps.setDate(3, (Date) fattura.getData_fattura());
-		ps.setInt(4, fattura.getPagamento());
-		ps.setBoolean(5, fattura.isPagata());
+		ps.setDate(3, Utility.convertJavaDateToSqlDate(fattura.getData_fattura()));
+		ps.setInt(4, 1);//fattura.getPagamento());
+		ps.setBoolean(5, true);//fattura.isPagata());
 		ps.setString(6, fattura.getNote());
 		int idFattura = ps.executeUpdate();
 		
