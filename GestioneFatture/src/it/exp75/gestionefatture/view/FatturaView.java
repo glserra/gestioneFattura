@@ -79,6 +79,11 @@ public class FatturaView extends JFrame {
 	private JTextField txtCF;
 	private JTextField txtPIVA;
 	private String returnValue;
+	
+	private JButton btnPrestazAdd;
+	private JButton btnPrestazMod;
+	private JButton btnPrestazDel;
+	
 	UtilDateModel modelDate;
 	
 	DefaultTableModel dtm;
@@ -110,6 +115,7 @@ public class FatturaView extends JFrame {
 	public FatturaView() {
 //		this.parent = this;
 //		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				
 		setBounds(100, 100, 792, 641);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -290,7 +296,8 @@ public class FatturaView extends JFrame {
 		btnModSalva.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Fattura ft = new Fattura();
-				ft.setNum_fattura(new Integer(lbl_NFattura.getText()));
+				Integer nrNuovaFattura = new Integer(lbl_NFattura.getText());
+				ft.setNum_fattura(nrNuovaFattura);
 				Cliente selectedItem = (Cliente) cbClienti.getSelectedItem();
 				ft.setId_cliente(selectedItem.getId());
 				ft.setData_fattura(modelDate.getValue());
@@ -304,6 +311,7 @@ public class FatturaView extends JFrame {
 				
 				if(salvaFattura > 0) {
 					JOptionPane.showMessageDialog(null, "Fattura salvata correttamente!");
+					ID_FATTURA = nrNuovaFattura;
 				}
 			}
 		});
@@ -311,7 +319,7 @@ public class FatturaView extends JFrame {
 		btnModSalva.setBounds(10, 11, 46, 46);
 		contentPane.add(btnModSalva);
 		
-		JButton btnPrestazAdd = new JButton("");
+		btnPrestazAdd = new JButton("");
 		btnPrestazAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PrestazioniView pv = new PrestazioniView(FatturaView.this);
@@ -324,7 +332,7 @@ public class FatturaView extends JFrame {
 		btnPrestazAdd.setBounds(10, 160, 20, 20);
 		contentPane.add(btnPrestazAdd);
 		
-		JButton btnPrestazMod = new JButton("");
+		btnPrestazMod = new JButton("");
 		btnPrestazMod.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				PrestazioniView pv = new PrestazioniView(FatturaView.this);
@@ -340,7 +348,7 @@ public class FatturaView extends JFrame {
 		btnPrestazMod.setBounds(36, 160, 20, 20);
 		contentPane.add(btnPrestazMod);
 		
-		JButton btnPrestazDel = new JButton("");
+		btnPrestazDel = new JButton("");
 		btnPrestazDel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Object value = tblPrestazioni.getValueAt(tblPrestazioni.getSelectedRow(),0);
@@ -380,7 +388,7 @@ public class FatturaView extends JFrame {
 		contentPane.add(lbl_NFattura);
 //		cbClienti.addItemListener(new ItemListener() {
 //			public void itemStateChanged(ItemEvent arg0) {
-//				JOptionPane.showMessageDialog(null, cbClienti.getSelectedIndex());
+//				JOptionPane.showMessageDialog(nulllbl_NFattura, cbClienti.getSelectedIndex());
 //			}//((Cliente)cbClienti.getSelectedItem()).getId() +
 //		});
 	}
@@ -479,6 +487,9 @@ public class FatturaView extends JFrame {
 		}
 		
 		lbl_NFattura.setText(numNextFattura.toString());
+
+		enableBtnPrestaz(false);
+		
 //		selectedCliente(cliente.getId());
 //		cbClienti.setEnabled(false);
 	}
@@ -603,5 +614,11 @@ public class FatturaView extends JFrame {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void enableBtnPrestaz(boolean value) {
+		btnPrestazAdd.setEnabled(value);
+		btnPrestazDel.setEnabled(value);
+		btnPrestazMod.setEnabled(value);
 	}
 }
