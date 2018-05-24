@@ -312,6 +312,7 @@ public class FatturaView extends JFrame {
 				if(salvaFattura > 0) {
 					JOptionPane.showMessageDialog(null, "Fattura salvata correttamente!");
 					ID_FATTURA = nrNuovaFattura;
+					enableBtnPrestaz(true);
 				}
 			}
 		});
